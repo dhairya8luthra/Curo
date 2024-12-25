@@ -11,10 +11,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { FcGoogle } from 'react-icons/fc';
+import { useNavigate } from 'react-router-dom';
 
 export default function AuthPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>('');
+  const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -28,11 +30,24 @@ export default function AuthPage() {
 
     try {
       if (isLogin) {
-        await signInWithEmailAndPassword(auth, email, password);
+        // Log in existing user
+        const userCredential = await signInWithEmailAndPassword(auth, email, password);
+        const user = userCredential.user;
+
+        // (1) Save user session
+        sessionStorage.setItem('authUser', JSON.stringify({
+          uid: user.uid,
+          email: user.email
+        }));
+
+        // (2) Navigate to /userdashboard/:uid
+        navigate(`/userdashboard/${user.uid}`);
       } else {
+        // Register new user
         const name = (form.elements.namedItem('name') as HTMLInputElement).value;
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
-        
+        const user = userCredential.user;
+
         // Send user data to your backend
         await fetch('http://localhost:3000/api/auth/register', {
           method: 'POST',
@@ -40,19 +55,27 @@ export default function AuthPage() {
             'Content-Type': 'application/json',
           },
           body: JSON.stringify({
-            uid: userCredential.user.uid,
+            uid: user.uid,
             email,
-            name,
+            name
           }),
         });
+
+        // (1) Save user session
+        sessionStorage.setItem('authUser', JSON.stringify({
+          uid: user.uid,
+          email: user.email,
+          name
+        }));
+
+        // (2) Navigate to /userdashboard/:uid
+        navigate(`/userdashboard/${user.uid}`);
       }
     } catch (err: any) {
       setError(err.message);
-
     } finally {
       setIsLoading(false);
     }
-    console.log('Submitted');
   };
 
   const handleGoogleLogin = async () => {
@@ -60,7 +83,8 @@ export default function AuthPage() {
       const provider = new GoogleAuthProvider();
       provider.setCustomParameters({ prompt: 'select_account' });
       const result = await signInWithPopup(auth, provider);
-      
+      const user = result.user;
+
       // Send user data to your backend
       await fetch('http://localhost:3000/api/auth/google', {
         method: 'POST',
@@ -68,15 +92,26 @@ export default function AuthPage() {
           'Content-Type': 'application/json',
         },
         body: JSON.stringify({
-          uid: result.user.uid,
-          email: result.user.email,
-          name: result.user.displayName,
+          uid: user.uid,
+          email: user.email,
+          name: user.displayName,
         }),
       });
+
+      // (1) Save user session
+      sessionStorage.setItem('authUser', JSON.stringify({
+        uid: user.uid,
+        email: user.email,
+        name: user.displayName
+      }));
+
+      // (2) Navigate to /userdashboard/:uid
+      navigate(`/userdashboard/${user.uid}`);
     } catch (err: any) {
       setError(err.message);
     }
   };
+
 
 
   return (

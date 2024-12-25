@@ -3,6 +3,7 @@ const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 require("dotenv").config();
+const supabase = require("./supabase");
 
 // Initialize Firebase Admin
 const serviceAccount = require("./serviceAccountKey.json");
@@ -41,10 +42,18 @@ app.post("/api/auth/register", async (req, res) => {
       displayName: name,
     });
 
-    // Here you would typically also save the user to your database
+    // Now save the user to Supabase
+    const { data, error } = await supabase
+      .from("users")
+      .insert([{ uid, email, name }]);
 
-    res.status(200).json({ message: "User registered successfully" });
-    console.log("User registered successfully");
+    if (error) {
+      console.error("Supabase insert error:", error);
+      return res.status(500).json({ error: error.message });
+    }
+
+    res.status(200).json({ message: "User registered successfully", data });
+    console.log("User registered successfully in Supabase");
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -57,7 +66,17 @@ app.post("/api/auth/google", async (req, res) => {
     console.log("Google sign-in successful");
     console.log(uid, email, name);
 
-    // Here you would typically save the user to your database
+    const { data, error } = await supabase
+      .from("users")
+      // upsert will update if the uid already exists, or create a new one if not
+      .upsert([{ uid, email, name }], {
+        onConflict: "uid", // column to check for duplicates
+      });
+
+    if (error) {
+      console.error("Supabase upsert error:", error);
+      return res.status(500).json({ error: error.message });
+    }
 
     res.status(200).json({ message: "Google sign-in successful" });
   } catch (error) {
