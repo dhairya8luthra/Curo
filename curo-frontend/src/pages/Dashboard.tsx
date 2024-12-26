@@ -11,13 +11,44 @@ import UpcomingAppointments from "../components/dashboard/UpcomingAppointments";
 import HealthMetrics from "../components/dashboard/HealthMetrics";
 import RecentRecords from "../components/dashboard/RecentRecords";
 import { useParams } from "react-router-dom";
-
+import { signOut } from "firebase/auth";
+import { auth } from '@/lib/firebase';
+import { toast } from 'react-hot-toast';
 export default function Dashboard() {
   const [activeTab, setActiveTab] = React.useState("overview");
   const { uid } = useParams();
 
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser ? JSON.parse(sessionUser) : null;
+  const handleLogout = () => {
+    toast((t) => (
+      <div className="flex flex-col space-y-2">
+        <p className="text-sm">Are you sure you want to logout?</p>
+        <div className="flex space-x-2">
+          <Button
+            onClick={() => {
+              signOut(auth) // This signs out from Firebase
+                .then(() => {
+                  // Remove user session
+                  sessionStorage.removeItem("authUser");
+                  window.location.href = "/";
+                  toast.dismiss(t.id);
+                })
+                .catch((error) => {
+                  console.error("Firebase sign-out error:", error);
+                  toast.dismiss(t.id);
+                });
+            }}
+          >
+            Yes
+          </Button>
+          <Button variant="outline" onClick={() => toast.dismiss(t.id)}>
+            No
+          </Button>
+        </div>
+      </div>
+    ), { duration: Infinity }); // Keep the toast open until user clicks Yes or No
+  };
 
   return (
     <div className="flex min-h-screen w-screen bg-gray-50">
@@ -94,6 +125,7 @@ export default function Dashboard() {
           <Button
             variant="ghost"
             className="w-full justify-start text-red-600 hover:text-red-700 hover:bg-red-50"
+            onClick={handleLogout}
           >
             <LogOut className="mr-2 h-4 w-4" />
             Logout
