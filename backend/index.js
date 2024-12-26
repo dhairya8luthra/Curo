@@ -52,7 +52,9 @@ app.post("/api/auth/register", async (req, res) => {
       return res.status(500).json({ error: error.message });
     }
 
-    res.status(200).json({ message: "User registered successfully", data });
+    res
+      .status(200)
+      .json({ message: "User registered successfully", data: req.body });
     console.log("User registered successfully in Supabase");
   } catch (error) {
     res.status(500).json({ error: error.message });
