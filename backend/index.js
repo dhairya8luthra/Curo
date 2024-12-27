@@ -228,6 +228,84 @@ app.get("/api/health-records", authenticateUser, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+// Update health record
+
+app.put("/api/health-records/:id", authenticateUser, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { uid } = req.user;
+    const { type, details } = req.body;
+
+    if (!type || !details) {
+      return res
+        .status(400)
+        .json({ error: "Missing required fields: type or details" });
+    }
+
+    // Fetch user ID from Supabase
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Update the record
+    const { data, error } = await supabase
+      .from("health_records")
+      .update({ type, details })
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error updating record:", error);
+      return res.status(500).json({ error: "Failed to update record" });
+    }
+
+    res.status(200).json(req.body);
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+// Delete health record
+app.delete("/api/health-records/:id", authenticateUser, async (req, res) => {
+  try {
+    const { id } = req.params;
+    const { uid } = req.user;
+
+    // Fetch user ID from Supabase
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Delete the record
+    const { data, error } = await supabase
+      .from("health_records")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error deleting record:", error);
+      return res.status(500).json({ error: "Failed to delete record" });
+    }
+
+    res.status(200).json({ message: "Record deleted successfully" });
+  } catch (error) {
+    console.error("Error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
 
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {

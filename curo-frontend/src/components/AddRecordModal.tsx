@@ -12,9 +12,10 @@ import { getAuth } from "firebase/auth";
 interface AddRecordModalProps {
   isOpen: boolean;
   onClose: () => void;
+  onRecordAdded: () => void; 
 }
 
-export default function AddRecordModal({ isOpen, onClose }: AddRecordModalProps) {
+export default function AddRecordModal({ isOpen, onClose, onRecordAdded }: AddRecordModalProps) {
   const [recordType, setRecordType] = useState("");
   const [formData, setFormData] = useState<any>({});
   const [medicines, setMedicines] = useState<{ name: string; frequency: string; timing: string; days: string[]; startDate: string; duration: string; }[]>([{ name: '', frequency: '', timing: '', days: [], startDate: '', duration: '' }]);
@@ -56,6 +57,8 @@ export default function AddRecordModal({ isOpen, onClose }: AddRecordModalProps)
           const result = await response.json();
           if (response.ok) {
             console.log("Record added successfully:", result);
+            onRecordAdded(); // Call the callback function
+            onClose();
           } else {
             console.error("Error adding record:", result.error);
           }

@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState,useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
 import { useParams } from "react-router-dom";
@@ -7,14 +7,47 @@ import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
 import AddRecordModal from "../components/AddRecordModal";
 import RecordsList from "../components/RecordsList";
-
+import { getAuth } from "firebase/auth";
+interface Record {
+  id: string;
+  type: string;
+  details: any;
+  uploaded_file_url?: string;
+}
 export default function HealthRecord() {
   const [activeTab, setActiveTab] = useState("records");
+  const [records, setRecords] = useState<Record[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const { uid } = useParams();
 
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser ? JSON.parse(sessionUser) : null;
+
+  const fetchRecords = async () => {  // Add this function
+    const auth = getAuth();
+    const user = auth.currentUser;
+    if (!user) {
+      console.error("No logged-in user. Please sign in first.");
+      return;
+    }
+    const token = await user.getIdToken();
+    const response = await fetch("http://localhost:3000/api/health-records", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    const result = await response.json();
+    if (response.ok) {
+      setRecords(result.records);
+    } else {
+      console.error("Error fetching records:", result.error);
+    }
+  };
+
+  useEffect(() => {  // Add this effect
+    fetchRecords();
+  }, []);
+
 
   return (
     <div className="flex min-h-screen w-screen bg-gray-50">
@@ -69,9 +102,12 @@ export default function HealthRecord() {
           </CardContent>
         </Card>
 
-        <RecordsList />
+        <RecordsList records={records} setRecords={setRecords} />
 
-        <AddRecordModal isOpen={isModalOpen} onClose={() => setIsModalOpen(false)} />
+        <AddRecordModal 
+      isOpen={isModalOpen} 
+      onClose={() => setIsModalOpen(false)}
+      onRecordAdded={fetchRecords}/>
       </main>
     </div>
   );
