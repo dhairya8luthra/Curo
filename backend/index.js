@@ -1,9 +1,13 @@
-// src/index.js
 const express = require("express");
 const cors = require("cors");
 const admin = require("firebase-admin");
 require("dotenv").config();
 const supabase = require("./supabase");
+const multer = require("multer");
+const path = require("path");
+const fs = require("fs");
+// Multer configuration for file uploads
+const upload = multer({ dest: "uploads/" });
 
 // Initialize Firebase Admin
 const serviceAccount = require("./serviceAccountKey.json");
@@ -104,11 +108,123 @@ app.get("/api/maps/nearby-hospitals", authenticateUser, async (req, res) => {
 
     const response = await fetch(url);
     const data = await response.json();
+    console.log("Nearby hospitals data:", data);
 
     // Send the entire response or transform it as needed
     res.json(data);
   } catch (error) {
     console.error("Nearby hospitals error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+// Add health record
+app.post(
+  "/api/health-records",
+  authenticateUser,
+  upload.single("file"), // Multer handles file upload
+  async (req, res) => {
+    try {
+      const { type, details } = req.body; // req.body fields are populated here
+      const { uid } = req.user;
+      const file = req.file;
+
+      if (!type || !details) {
+        return res
+          .status(400)
+          .json({ error: "Missing required fields: type or details" });
+      }
+
+      let parsedDetails;
+      try {
+        parsedDetails = JSON.parse(details); // Parse `details` as JSON
+      } catch (error) {
+        return res.status(400).json({ error: "Invalid JSON in details field" });
+      }
+
+      // Fetch user ID from Supabase
+      const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("uid", uid)
+        .single();
+
+      if (userError || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+
+      let fileUrl = null;
+
+      // If a file is uploaded, upload it to Supabase storage
+      if (file) {
+        const fileExt = path.extname(file.originalname);
+        const fileName = `${Date.now()}-${file.originalname}`;
+        const filePath = `health-records/${fileName}`;
+
+        const { data: uploadData, error: uploadError } = await supabase.storage
+          .from("health-records")
+          .upload(filePath, fs.createReadStream(file.path), {
+            contentType: file.mimetype,
+            duplex: "half",
+          });
+
+        if (uploadError) {
+          console.error("Supabase upload error:", uploadError);
+          return res.status(500).json({ error: "Failed to upload file" });
+        }
+
+        fileUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/${uploadData.Key}`;
+      }
+
+      // Insert the record into Supabase
+      const { data, error } = await supabase.from("health_records").insert({
+        user_id: user.id,
+        type,
+        details: parsedDetails, // Use parsed JSON object
+        uploaded_file_url: fileUrl,
+      });
+
+      if (error) {
+        console.error("Supabase insert error:", error);
+        return res.status(500).json({ error: "Failed to insert record" });
+      }
+
+      res.status(201).json({ message: "Record added successfully", data });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: error.message });
+    }
+  }
+);
+// Fetch health records
+app.get("/api/health-records", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+
+    // Fetch user ID from Supabase
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // Fetch health records for the user
+    const { data, error } = await supabase
+      .from("health_records")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error(error);
+      return res.status(500).json({ error: "Failed to fetch records" });
+    }
+
+    res.status(200).json({ records: data });
+  } catch (error) {
+    console.error(error);
     res.status(500).json({ error: error.message });
   }
 });

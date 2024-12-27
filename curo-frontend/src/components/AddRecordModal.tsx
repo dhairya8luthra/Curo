@@ -8,7 +8,7 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { ScrollArea } from "@/components/ui/scroll-area";
 import { Plus, X } from 'lucide-react';
-
+import { getAuth } from "firebase/auth";
 interface AddRecordModalProps {
   isOpen: boolean;
   onClose: () => void;
@@ -20,12 +20,52 @@ export default function AddRecordModal({ isOpen, onClose }: AddRecordModalProps)
   const [medicines, setMedicines] = useState<{ name: string; frequency: string; timing: string; days: string[]; startDate: string; duration: string; }[]>([{ name: '', frequency: '', timing: '', days: [], startDate: '', duration: '' }]);
   const [tests, setTests] = useState([{ parameter: '', value: '', result: '' }]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log("Form submitted:", { recordType, ...formData, medicines, tests });
-    onClose();
-  };
+    const recordDetails = {
+        medicines: medicines || [], // Default to empty array
+        tests: tests || [],         // Default to empty array
+        ...formData,                // Include additional fields
+      };
+  
+    const formPayload = new FormData();
+    formPayload.append("type", recordType);
+    formPayload.append("details", JSON.stringify(recordDetails)); // Include medicines/tests
+    if (formData.file) {
+      formPayload.append("file", formData.file);
+    }
+    
+    try{
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) {
+            throw new Error("No logged-in user. Please sign in first.");
+        }
 
+        const token = await user.getIdToken();
+        const response = await fetch("http://localhost:3000/api/health-records", {
+            method: "POST",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+            body: formPayload,
+          });
+          console.log(formPayload);   
+          
+        
+          const result = await response.json();
+          if (response.ok) {
+            console.log("Record added successfully:", result);
+          } else {
+            console.error("Error adding record:", result.error);
+          }
+        onClose();
+    }
+    catch(error){
+        console.error("Error:", error);
+
+    }
+  };
   const addMedicine = () => {
     setMedicines([...medicines, { name: '', frequency: '', timing: '', days: [], startDate: '', duration: '' }]);
   };
