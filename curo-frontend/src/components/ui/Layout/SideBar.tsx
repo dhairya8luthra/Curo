@@ -1,11 +1,11 @@
-// components/Sidebar.js
 import React from "react";
-import { MapPin, FileText, Calendar, Settings, LogOut, Activity } from "lucide-react";
+import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useNavigate } from 'react-router-dom';
+
 interface SidebarProps {
   activeTab: string;
   setActiveTab: (tab: string) => void;
@@ -15,6 +15,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser ? JSON.parse(sessionUser) : null;
   const navigate = useNavigate();
+
   const handleLogout = () => {
     toast((t) => (
       <div className="flex flex-col space-y-2">
@@ -58,7 +59,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           onClick={() => {
             setActiveTab("overview")
             navigate(`/userdashboard/${user.uid}`);
-        }}
+          }}
         >
           <Activity className="mr-2 h-4 w-4" />
           Overview
@@ -68,7 +69,6 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           className={`w-full justify-start ${activeTab === "hospitals" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
             setActiveTab("hospitals")
-            
           }}
         >
           <MapPin className="mr-2 h-4 w-4" />
@@ -79,7 +79,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           className={`w-full justify-start ${activeTab === "records" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
             setActiveTab("records")
-            navigate(`/healthrecords/${user.uid}`);}}
+            navigate(`/healthrecords/${user.uid}`);
+          }}
         >
           <FileText className="mr-2 h-4 w-4" />
           Health Records
@@ -91,6 +92,17 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         >
           <Calendar className="mr-2 h-4 w-4" />
           Appointments
+        </Button>
+        <Button
+          variant={activeTab === "medichat" ? "default" : "ghost"}
+          className={`w-full justify-start ${activeTab === "medichat" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
+          onClick={() => {
+            setActiveTab("medichat")
+            navigate(`/medichat/${user.uid}`);
+          }}
+        >
+          <MessageSquare className="mr-2 h-4 w-4" />
+          MediChat - AI Doctor
         </Button>
       </nav>
 
@@ -114,3 +126,4 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
     </aside>
   );
 }
+

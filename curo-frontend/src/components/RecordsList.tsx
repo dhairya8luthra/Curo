@@ -48,7 +48,7 @@ export default function RecordsList({ records, setRecords }: RecordsListProps) {
   const [recordToDelete, setRecordToDelete] = useState<string | null>(null);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [recordToEdit, setRecordToEdit] = useState<Record | null>(null);
-  const recordsPerPage = 5;
+  const recordsPerPage = 3;
   const sortRecordsByDate = (records: Record[]) => {
     return [...records].sort((a, b) => {
       const getDate = (record: Record) => {
