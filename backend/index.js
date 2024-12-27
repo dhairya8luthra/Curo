@@ -172,7 +172,7 @@ app.post(
           return res.status(500).json({ error: "Failed to upload file" });
         }
 
-        fileUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/${uploadData.Key}`;
+        fileUrl = `${process.env.SUPABASE_URL}/storage/v1/object/public/health-records/health-records/${fileName}`;
       }
 
       // Insert the record into Supabase
