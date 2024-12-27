@@ -13,7 +13,7 @@ interface Message {
 const INITIAL_MESSAGE: Message = {
   role: "assistant",
   content:
-    "Welcome to MediChat AI Doctor. Please note that I am an AI assistant and not a real doctor. I can provide general health information, but for any serious concerns, always consult with a qualified healthcare professional.",
+    "Welcome to MediChat AI Doctor 👋. Please note that I am an AI assistant and not a real doctor. I can provide general health information, but for any serious concerns, always consult with a qualified healthcare professional.",
 };
 
 export default function MediChat() {
@@ -52,7 +52,7 @@ export default function MediChat() {
     {/* Header */}
     <CardHeader className="bg-gradient-to-r from-blue-800 to-blue-400 text-white rounded-t-xl p-4 shadow-md">
       <CardTitle className="text-center text-2xl font-bold">
-        MediChat - AI Doctor
+        MediChat - AI 👨‍⚕️🤖 Doctor
       </CardTitle>
       <p className="text-center text-sm text-gray-100 mt-1">
         Remember: I’m not a real doctor. For serious concerns, consult a healthcare professional.
