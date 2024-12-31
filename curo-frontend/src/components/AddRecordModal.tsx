@@ -35,6 +35,7 @@ export default function AddRecordModal({ isOpen, onClose, onRecordAdded }: AddRe
     if (formData.file) {
       formPayload.append("file", formData.file);
     }
+    console.log(formPayload);
     
     try{
         const auth = getAuth();
@@ -130,28 +131,53 @@ export default function AddRecordModal({ isOpen, onClose, onRecordAdded }: AddRe
                     className="border-gray-300 focus:border-blue-500 focus:ring-blue-500"
                   />
                 </div>
-                <div className="space-y-2">
-                  <Label>Result</Label>
-                  <RadioGroup 
-                    value={test.result}
-                    onValueChange={(value) => updateTest(index, 'result', value)}
-                    className="flex space-x-4"
-                  >
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="normal" id={`normal-${index}`} className="text-blue-600 border-blue-600 focus:ring-blue-500" />
-                      <Label htmlFor={`normal-${index}`}>Normal</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="increased" id={`increased-${index}`} className="text-blue-600 border-blue-600 focus:ring-blue-500" />
-                      <Label htmlFor={`increased-${index}`}>Increased</Label>
-                    </div>
-                    <div className="flex items-center space-x-2">
-                      <RadioGroupItem value="decreased" id={`decreased-${index}`} className="text-blue-600 border-blue-600 focus:ring-blue-500" />
-                      <Label htmlFor={`decreased-${index}`}>Decreased</Label>
-                    </div>
-                  </RadioGroup>
+                  <div className="space-y-2">
+                    <Label>Result</Label>
+                    <RadioGroup 
+                      value={test.result}
+                      onValueChange={(value) => updateTest(index, 'result', value)}
+                      className="flex space-x-4"
+                    >
+                      <div className="flex items-center space-x-2">
+  <RadioGroupItem
+    value="normal"
+    id={`normal-${index}`}
+    className={`${
+      test.result === "normal" ? "bg-blue-100 text-white border-blue-600" : "bg-white text-blue-600 border-blue-600"
+    } border-2 focus:ring-blue-500 rounded-full w-6 h-6 flex items-center justify-center`}
+  />
+  <Label htmlFor={`normal-${index}`} className="cursor-pointer">
+    Normal
+  </Label>
+</div>
+<div className="flex items-center space-x-2">
+  <RadioGroupItem
+    value="increased"
+    id={`increased-${index}`}
+    className={`${
+      test.result === "increased" ? "bg-blue-100 text-white border-blue-600" : "bg-white text-blue-600 border-blue-600"
+    } border-2 focus:ring-blue-500 rounded-full w-6 h-6 flex items-center justify-center`}
+  />
+  <Label htmlFor={`increased-${index}`} className="cursor-pointer">
+    Increased
+  </Label>
+</div>
+<div className="flex items-center space-x-2">
+  <RadioGroupItem
+    value="decreased"
+    id={`decreased-${index}`}
+    className={`${
+      test.result === "decreased" ? "bg-blue-100 text-white border-blue-600" : "bg-white text-blue-600 border-blue-600"
+    } border-2 focus:ring-blue-500 rounded-full w-6 h-6 flex items-center justify-center`}
+  />
+  <Label htmlFor={`decreased-${index}`} className="cursor-pointer">
+    Decreased
+  </Label>
+</div>
+                      
+                    </RadioGroup>
+                  </div>
                 </div>
-              </div>
             ))}
             <Button type="button" onClick={addTest} className="mt-4 bg-blue-600 text-white hover:bg-blue-700">
               <Plus className="mr-2 h-4 w-4" /> Add Another Test

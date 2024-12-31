@@ -1,16 +1,19 @@
-const express = require("express");
-const cors = require("cors");
-const admin = require("firebase-admin");
-require("dotenv").config();
-const supabase = require("./supabase");
-const multer = require("multer");
-const path = require("path");
-const fs = require("fs");
+import express from "express";
+import cors from "cors";
+import dotenv from "dotenv";
+dotenv.config();
+import admin from "firebase-admin";
+import supabase from "./supabase.js";
+import multer from "multer";
+import path from "path";
+import fs from "fs";
+import chatRoutes from "./routes/medichatRoutes.js";
 // Multer configuration for file uploads
 const upload = multer({ dest: "uploads/" });
 
 // Initialize Firebase Admin
-const serviceAccount = require("./serviceAccountKey.json");
+import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
+
 admin.initializeApp({
   credential: admin.credential.cert(serviceAccount),
 });
@@ -306,6 +309,8 @@ app.delete("/api/health-records/:id", authenticateUser, async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
+//Medichat Routes
+app.use("/api", chatRoutes);
 
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {
