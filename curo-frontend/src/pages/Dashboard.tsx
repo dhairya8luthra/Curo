@@ -24,7 +24,7 @@ export default function Dashboard() {
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8">
+      <main className="flex-1 p-4 md:p-8 ">
         {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
           <div>
@@ -61,7 +61,7 @@ export default function Dashboard() {
         </header>
 
         {/* Dashboard Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
           {/* Small Cards */}
           <div className="grid grid-cols-2 gap-4">
             <Card className="p-4">

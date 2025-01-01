@@ -1,10 +1,11 @@
 import React from "react";
-import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare } from 'lucide-react';
+import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare,AlarmClock } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useNavigate } from 'react-router-dom';
+
 
 interface SidebarProps {
   activeTab: string;
@@ -103,6 +104,17 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         >
           <MessageSquare className="mr-2 h-4 w-4" />
           MediChat - AI Doctor
+        </Button>
+        <Button
+          variant={activeTab === "Medicine Reminder" ? "default" : "ghost"}
+          className={`w-full justify-start ${activeTab === "Medicine Reminder" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
+          onClick={() => {
+            setActiveTab("Medicine Reminder")
+            navigate(`/reminder/${user.uid}`);
+          }}
+        >
+          <AlarmClock className="mr-2 h-4 w-4" />
+          Medicine Reminder
         </Button>
       </nav>
 

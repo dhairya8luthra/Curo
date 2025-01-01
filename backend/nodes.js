@@ -161,7 +161,7 @@ export async function generate(state) {
   console.log("Documents at generate:", state.documents);
 
   const prompt = ChatPromptTemplate.fromTemplate(`
-  You are a helpful medical assistant. Use ONLY the following text to answer the user’s question:
+  You are a medical professional and act like one. Use ONLY the following text to answer the user’s question:
   {context}
   
   User’s question: {question}
