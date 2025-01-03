@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from "react";
-import {google} from "@types/google.maps";
+import { MapPin } from "lucide-react";
+import { getAuth } from "firebase/auth";
+import { HospitalDetails } from "./HospitalDetails";
 
 // Declare the google property on the window object
 declare global {
@@ -7,10 +9,9 @@ declare global {
     google: any;
   }
 }
-import { MapPin } from "lucide-react";
-import { getAuth } from "firebase/auth";
 
 interface Hospital {
+  place_id: string;
   name: string;
   vicinity: string;
   geometry?: {
@@ -19,7 +20,15 @@ interface Hospital {
       lng: number;
     };
   };
+  rating?: number;
+  user_ratings_total?: number;
+  opening_hours?: {
+    open_now: boolean;
+  };
+  types?: string[];
 }
+
+const ITEMS_PER_PAGE = 5;
 
 export default function DashboardMap() {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
@@ -27,6 +36,8 @@ export default function DashboardMap() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
   const [userLatLng, setUserLatLng] = useState<{ lat: number; lng: number } | null>(null);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
 
   // Reference to the map DOM node
   const mapRef = useRef<HTMLDivElement>(null);
@@ -35,9 +46,12 @@ export default function DashboardMap() {
   // Keep track of markers so we can clear them when we fetch new data
   const markersRef = useRef<google.maps.Marker[]>([]);
 
-  /**
-   * Fetch the list of hospitals from the backend (protected route).
-   */
+  // Calculate pagination values
+  const totalPages = Math.ceil(hospitals.length / ITEMS_PER_PAGE);
+  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
+  const endIndex = startIndex + ITEMS_PER_PAGE;
+  const currentHospitals = hospitals.slice(startIndex, endIndex);
+
   const fetchHospitals = async (lat: number, lng: number) => {
     setLoading(true);
     setError("");
@@ -57,14 +71,15 @@ export default function DashboardMap() {
           Authorization: `Bearer ${token}`,
         },
       });
-
+      console.log(response);
       if (!response.ok) {
         throw new Error("Failed to fetch nearby hospitals");
       }
 
       const data = await response.json();
-      // data.results is typically an array of places
       setHospitals(data.results || []);
+      setCurrentPage(1); // Reset to first page when new data is loaded
+      console.log(data.results);
     } catch (err: any) {
       setError(err.message || "Error fetching hospitals");
     } finally {
@@ -72,9 +87,6 @@ export default function DashboardMap() {
     }
   };
 
-  /**
-   * Handle button click: ask for geolocation, fetch hospitals, and store the user’s location.
-   */
   const handleFindHospitals = () => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser.");
@@ -94,39 +106,31 @@ export default function DashboardMap() {
     );
   };
 
-  /**
-   * Initialize the Google Map once we have userLatLng, if it's not created yet.
-   */
   useEffect(() => {
     if (userLatLng && mapRef.current && !map) {
-      // Create a new map centered on the user's location
       const newMap = new window.google.maps.Map(mapRef.current, {
         center: { lat: userLatLng.lat, lng: userLatLng.lng },
         zoom: 13,
       });
       setMap(newMap);
 
-      // Optionally, place a marker for the user’s location
       new window.google.maps.Marker({
         position: userLatLng,
         map: newMap,
         title: "You are here",
+        icon: {
+          url: "http://maps.google.com/mapfiles/ms/icons/blue-dot.png",
+        },
       });
     }
   }, [userLatLng, map]);
 
-  /**
-   * Whenever 'hospitals' change, place new markers on the map.
-   * We clear out old markers first.
-   */
   useEffect(() => {
     if (!map) return;
 
-    // Clear existing markers
     markersRef.current.forEach((marker) => marker.setMap(null));
     markersRef.current = [];
 
-    // Create a marker for each hospital
     hospitals.forEach((h) => {
       if (!h.geometry?.location) return;
       const marker = new window.google.maps.Marker({
@@ -139,7 +143,6 @@ export default function DashboardMap() {
       });
       markersRef.current.push(marker);
 
-      // Optional: add an info window
       const infoWindow = new window.google.maps.InfoWindow({
         content: `<div><strong>${h.name}</strong><br/>${h.vicinity}</div>`,
       });
@@ -167,7 +170,7 @@ export default function DashboardMap() {
 
       <button
         onClick={handleFindHospitals}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md mb-4"
+        className="px-4 py-2 bg-blue-600 text-white rounded-md mb-4 hover:bg-blue-700"
       >
         Find Hospitals
       </button>
@@ -175,30 +178,73 @@ export default function DashboardMap() {
       {loading && <p>Loading hospitals...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
-      {/* MAP CONTAINER - The actual Google Map will be rendered here */}
       <div
         ref={mapRef}
         className="w-full h-[400px] rounded-lg mb-4 border border-gray-300"
       />
 
-      {/* Hospital list (optional) */}
       <div className="space-y-2">
-        {hospitals.map((hospital, i) => (
+        {currentHospitals.map((hospital, i) => (
           <div
             key={i}
-            className="flex items-center justify-between p-3 bg-white rounded-lg border"
+            className="flex items-center justify-between p-3 bg-white rounded-lg border hover:border-blue-500 transition-colors"
           >
             <div className="flex items-center space-x-3">
               <MapPin className="h-5 w-5 text-blue-500" />
               <div>
                 <p className="font-medium">{hospital.name}</p>
                 <p className="text-sm text-gray-500">{hospital.vicinity}</p>
+                {hospital.rating && (
+                  <div className="flex items-center mt-1">
+                    <span className="text-yellow-500">★</span>
+                    <span className="ml-1 text-sm">{hospital.rating}</span>
+                    <span className="text-sm text-gray-500 ml-1">
+                      ({hospital.user_ratings_total} reviews)
+                    </span>
+                  </div>
+                )}
               </div>
             </div>
-            <button className="text-blue-500 text-sm">View Details</button>
+            <button
+              onClick={() => setSelectedHospital(hospital)}
+              className="px-4 py-2 text-blue-600 hover:bg-blue-50 rounded-md transition-colors"
+            >
+              View Details
+            </button>
           </div>
         ))}
       </div>
+
+      {/* Pagination */}
+      {totalPages > 1 && (
+        <div className="flex justify-center items-center space-x-2 mt-4">
+          <button
+            onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
+            disabled={currentPage === 1}
+            className="px-3 py-1 rounded-md bg-gray-100 disabled:opacity-50"
+          >
+            Previous
+          </button>
+          <span className="text-gray-600">
+            Page {currentPage} of {totalPages}
+          </span>
+          <button
+            onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
+            disabled={currentPage === totalPages}
+            className="px-3 py-1 rounded-md bg-gray-100 disabled:opacity-50"
+          >
+            Next
+          </button>
+        </div>
+      )}
+
+      {/* Hospital Details Modal */}
+      {selectedHospital && (
+        <HospitalDetails
+          hospital={selectedHospital}
+          onClose={() => setSelectedHospital(null)}
+        />
+      )}
     </div>
   );
 }
