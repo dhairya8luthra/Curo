@@ -10,6 +10,7 @@ cron.schedule(
   "* * * * *",
   async () => {
     try {
+      console.log("Running scheduler...");
       // 1) get current time/day
       const now = DateTime.now().setZone(TIMEZONE);
       const currentDay = now.toFormat("cccc"); // "Monday", "Tuesday"...
