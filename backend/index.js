@@ -2,21 +2,17 @@ import express from "express";
 import cors from "cors";
 import dotenv from "dotenv";
 dotenv.config();
-import admin from "firebase-admin";
 import supabase from "./supabase.js";
 import multer from "multer";
 import path from "path";
 import fs from "fs";
 import chatRoutes from "./routes/medichatRoutes.js";
+import "./scheduler/reminderScheduler.js";
+import admin from "./firebaseAdmin.js";
 // Multer configuration for file uploads
 const upload = multer({ dest: "uploads/" });
 
 // Initialize Firebase Admin
-import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
-
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
 
 const app = express();
 
@@ -63,6 +59,35 @@ app.post("/api/auth/register", async (req, res) => {
       .status(200)
       .json({ message: "User registered successfully", data: req.body });
     console.log("User registered successfully in Supabase");
+  } catch (error) {
+    res.status(500).json({ error: error.message });
+  }
+});
+app.put("/api/users/update-fcm-token", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { fcmToken } = req.body;
+
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    const { error: updateError } = await supabase
+      .from("users")
+      .update({ fcm_token: fcmToken })
+      .eq("id", user.id);
+
+    if (updateError) {
+      return res.status(500).json({ error: updateError.message });
+    }
+
+    res.status(200).json({ message: "FCM token updated successfully" });
   } catch (error) {
     res.status(500).json({ error: error.message });
   }
@@ -311,6 +336,163 @@ app.delete("/api/health-records/:id", authenticateUser, async (req, res) => {
 });
 //Medichat Routes
 app.use("/api", chatRoutes);
+
+//Medicine Reminder Routes
+// CREATE a new medicine reminder
+app.post("/api/medicine-reminder", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { name, dosage, time, days } = req.body;
+
+    if (!name || !time || !days) {
+      return res
+        .status(400)
+        .json({ error: "name, time, and days are required." });
+    }
+
+    // 1) find the user’s ID in supabase
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // 2) insert the medicine reminder
+    const { data, error } = await supabase
+      .from("medicine_reminders")
+      .insert({
+        user_id: user.id,
+        name,
+        dosage,
+        time,
+        days, // must be an array e.g. ['Monday','Wednesday']
+      })
+      .single();
+
+    if (error) {
+      console.error("Error creating reminder:", error);
+      return res.status(500).json({ error: "Failed to create reminder" });
+    }
+
+    res.status(201).json({ message: "Reminder created", reminder: data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// READ: get all reminders for the authenticated user
+app.get("/api/medicine-reminder", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+
+    // find user
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // get reminders for user
+    const { data, error } = await supabase
+      .from("medicine_reminders")
+      .select("*")
+      .eq("user_id", user.id);
+
+    if (error) {
+      console.error("Error fetching reminders:", error);
+      return res.status(500).json({ error: "Failed to fetch reminders" });
+    }
+
+    res.status(200).json({ reminders: data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// UPDATE: update a reminder
+app.put("/api/medicine-reminder/:id", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { id } = req.params;
+    const { name, dosage, time, days } = req.body;
+
+    // find user
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // update the record
+    const { data, error } = await supabase
+      .from("medicine_reminders")
+      .update({ name, dosage, time, days })
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      console.error("Error updating reminder:", error);
+      return res.status(500).json({ error: "Failed to update reminder" });
+    }
+
+    res.status(200).json({ message: "Reminder updated", reminder: data });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
+
+// DELETE: delete a reminder
+app.delete("/api/medicine-reminder/:id", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { id } = req.params;
+
+    // find user
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select("id")
+      .eq("uid", uid)
+      .single();
+
+    if (userError || !user) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    // delete the record
+    const { data, error } = await supabase
+      .from("medicine_reminders")
+      .delete()
+      .eq("id", id)
+      .eq("user_id", user.id)
+      .single();
+
+    if (error) {
+      console.error("Error deleting reminder:", error);
+      return res.status(500).json({ error: "Failed to delete reminder" });
+    }
+
+    res.status(200).json({ message: "Reminder deleted" });
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ error: err.message });
+  }
+});
 
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {
