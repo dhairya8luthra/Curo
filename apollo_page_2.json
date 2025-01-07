@@ -1,0 +1,146 @@
+[
+  {
+    "name": "Otrivin Advance Adult Nasal Spray, 10 gm",
+    "price": 240,
+    "availability": "in-stock",
+    "images": "/catalog/product/o/t/otr0064_5.jpg"
+  },
+  {
+    "name": "Dolopar Tablet 15's",
+    "price": 56.7,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0006.jpg"
+  },
+  {
+    "name": "Crocin Advance Tablet 20's",
+    "price": 18,
+    "availability": "in-stock",
+    "images": "/catalog/product/C/R/CRO0091_1.jpg"
+  },
+  {
+    "name": "Dolo-Mf Susp 60ml",
+    "price": 56.7,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0464_1_1.jpg"
+  },
+  {
+    "name": "Dolostat-SP Tablet 10's",
+    "price": 53.1,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0191.jpg"
+  },
+  {
+    "name": "Dolowin MR Tablet 10's",
+    "price": 95.4,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0043_1_1.jpg"
+  },
+  {
+    "name": "Dolo-MF Junior Oral Suspension 60 ml",
+    "price": 50.85,
+    "availability": "in-stock",
+    "images": "/catalog/product/s/u/suspension_31.jpg"
+  },
+  {
+    "name": "Doloneuron-NT Capsule 10's",
+    "price": 256.05,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0275.jpg"
+  },
+  {
+    "name": "Doloneuron 100 Tablet 15's",
+    "price": 151.2,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0003_1_1.jpg"
+  },
+  {
+    "name": "Dolocold Tablet 10's",
+    "price": 31.5,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0537_1_3.jpg"
+  },
+  {
+    "name": "Dolopar Drops 15 ml",
+    "price": 27,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0051.jpg"
+  },
+  {
+    "name": "Dolopar-Mds  Suspension 60ml",
+    "price": 56.7,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0407_2_1.jpg"
+  },
+  {
+    "name": "Dolotuss SF Oral Suspension 100 ml",
+    "price": 120.6,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0467_1.jpg"
+  },
+  {
+    "name": "Dolokind Tablet 10's",
+    "price": 34.65,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0017_3.jpg"
+  },
+  {
+    "name": "Nvm  Dolo Tablet",
+    "price": 90,
+    "availability": "not-sellOnline",
+    "images": "/catalog/product/t/a/tablet_7_234.jpg"
+  },
+  {
+    "name": "Dolo Pain Relief Spray 55 gm",
+    "price": 129.15,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0528-jan24.jpg"
+  },
+  {
+    "name": "Dolo 156.25 mg Syrup 60 ml",
+    "price": 50.4,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0217_1.jpg"
+  },
+  {
+    "name": "Dolostat PC Tablet 10's",
+    "price": 28.8,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0013.jpg"
+  },
+  {
+    "name": "Dolovera Gel 30gm",
+    "price": 89.55,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0399_1.jpg"
+  },
+  {
+    "name": "Doloneuron-NT 200 Tablet 10's",
+    "price": 157.05,
+    "availability": "in-stock",
+    "images": "/catalog/product/D/O/DOL0545_1.jpg"
+  },
+  {
+    "name": "Dolofirst 650 mg Tablet 15's",
+    "price": 27.45,
+    "availability": "in-stock",
+    "images": "/catalog/product/pharma/tablet.jpg"
+  },
+  {
+    "name": "Dolozox-MR Neo Tablet 10's ",
+    "price": 58.95,
+    "availability": "in-stock",
+    "images": "/catalog/product/pharma/tablet.jpg"
+  },
+  {
+    "name": "Dolowin SR Tablet 10's",
+    "price": 84.6,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0032.jpg"
+  },
+  {
+    "name": "Dolonex IM 20 mg Injection 1 ml",
+    "price": 34.2,
+    "availability": "in-stock",
+    "images": "/catalog/product/d/o/dol0004_1.jpg"
+  }
+]

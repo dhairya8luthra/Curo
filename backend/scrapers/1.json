@@ -1,0 +1,826 @@
+{
+  "status": 1,
+  "data": {
+    "brand": null,
+    "brandSlug": null,
+    "products": [
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 5116,
+        "productType": 1,
+        "name": "Dolostat Sp Strip Of 10 Tablets",
+        "variantCount": 0,
+        "slug": "dolostat-sp-tablet-5116",
+        "subtitleText": "10 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=5116",
+        "pricePerUnit": "5.66/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "10 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/224318/dolostat-sp-tablet-2-1641531175.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "BLUE CROSS LABORATORIES PRIVATE LIMITED",
+        "mrpDecimal": "59.00",
+        "salePriceDecimal": "56.64",
+        "discountPercent": "4",
+        "discountDecimal": "2.36",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/224318/dolostat-sp-tablet-2-1641531175.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/224318/dolostat-sp-tablet-7-1641531173.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15177289",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "3",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 44174,
+        "productType": 1,
+        "name": "Dolokind Mr Strip Of 10 Tablets",
+        "variantCount": 0,
+        "slug": "dolokind-mr-tablet-44174",
+        "subtitleText": "10 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": {
+          "count": 1,
+          "groupId": 20219,
+          "topCheaperPercentage": 28.37
+        },
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=44174",
+        "pricePerUnit": "7.43/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "10 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/059480/dolokind-mr-strip-of-10-tablets-2-1648475958.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "MANKIND PHARMACEUTICALS LTD",
+        "mrpDecimal": "82.50",
+        "salePriceDecimal": "74.25",
+        "discountPercent": "10",
+        "discountDecimal": "8.25",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059480/dolokind-mr-strip-of-10-tablets-2-1648475958.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059480/dolokind-mr-strip-of-10-tablets-7-1648475960.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "14912162",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "5",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 44193,
+        "productType": 1,
+        "name": "Dolopar 250mg Suspension 60ml",
+        "variantCount": 0,
+        "slug": "dolopar-250mg-suspension-60ml-44193",
+        "subtitleText": "60ml Suspension in Bottle",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=44193",
+        "pricePerUnit": "0.62/ml",
+        "pricePerUnitNew": "",
+        "packform": "BOTTLE",
+        "measurementUnit": "60ml Suspension in Bottle",
+        "image": "https://cdn01.pharmeasy.in/dam/products/059570/dolopar-250mg-suspension-60ml-2-1641535619.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 0,
+        "isRefrigerated": false,
+        "manufacturer": "MICRO LABS",
+        "mrpDecimal": "40.32",
+        "salePriceDecimal": "37.09",
+        "discountPercent": "8",
+        "discountDecimal": "3.23",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059570/dolopar-250mg-suspension-60ml-2-1641535619.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059570/dolopar-250mg-suspension-60ml-6-1641535618.jpg",
+            "face": "side",
+            "sequence": "6"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059570/dolopar-250mg-suspension-60ml-7-1641535617.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15233597",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "3",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+          "Quantity": "60 ML"
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 18088,
+        "productType": 1,
+        "name": "Doloforce Dt 20mg Strip Of 10 Tablets",
+        "variantCount": 0,
+        "slug": "doloforce-dt-20mg-tablet-18088",
+        "subtitleText": "10 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": {
+          "count": 2,
+          "groupId": 13854
+        },
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=18088",
+        "pricePerUnit": "8.1/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "10 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/I00435/doloforce-dt-20mg-strip-of-10-tablets-2-1648473744.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "MANKIND PHARMACEUTICALS LTD",
+        "mrpDecimal": "83.54",
+        "salePriceDecimal": "81.03",
+        "discountPercent": "3",
+        "discountDecimal": "2.51",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/I00435/doloforce-dt-20mg-strip-of-10-tablets-2-1648473744.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/I00435/doloforce-dt-20mg-strip-of-10-tablets-7-1648473746.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15191867",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "5",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 19751,
+        "productType": 1,
+        "name": "Dolowin Mr Strip Of 10 Tablets",
+        "variantCount": 0,
+        "slug": "dolowin-mr-strip-of-10-tablets-19751",
+        "subtitleText": "10 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=19751",
+        "pricePerUnit": "10.18/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "10 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/192038/dolowin-mr-strip-of-10-tablets-2-1641533668.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "MICRO LABS",
+        "mrpDecimal": "106.00",
+        "salePriceDecimal": "101.76",
+        "discountPercent": "4",
+        "discountDecimal": "4.24",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/192038/dolowin-mr-strip-of-10-tablets-2-1641533668.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/192038/dolowin-mr-strip-of-10-tablets-7-1641533669.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15224760",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "6",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 44133,
+        "productType": 1,
+        "name": "Dolo 120mg Suspension 60ml",
+        "variantCount": 0,
+        "slug": "dolo-120mg-susp-44133",
+        "subtitleText": "60ml Suspension in Bottle",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=44133",
+        "pricePerUnit": "0.61/ml",
+        "pricePerUnitNew": "",
+        "packform": "BOTTLE",
+        "measurementUnit": "60ml Suspension in Bottle",
+        "image": "https://cdn01.pharmeasy.in/dam/products/059332/dolo-120mg-susp-2-1641535222.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 0,
+        "isRefrigerated": false,
+        "manufacturer": "MICRO LABS",
+        "mrpDecimal": "40.99",
+        "salePriceDecimal": "36.48",
+        "discountPercent": "11",
+        "discountDecimal": "4.51",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059332/dolo-120mg-susp-2-1641535222.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059332/dolo-120mg-susp-6.1-1641535220.jpg",
+            "face": "side",
+            "sequence": "6.1"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059332/dolo-120mg-susp-6.2-1641535220.jpg",
+            "face": "side",
+            "sequence": "6.2"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "14589592",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "3",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 3563885,
+        "productType": 1,
+        "name": "Doloxicam Dt Strip Of 15 Tablets",
+        "variantCount": 0,
+        "slug": "doloxicam-dt-strip-of-15-tablets-3563885",
+        "subtitleText": "15 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": {
+          "count": 1,
+          "groupId": 13854,
+          "topCheaperPercentage": 36.82
+        },
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=3563885",
+        "pricePerUnit": "14.44/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "15 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/U83014/doloxicam-dt-strip-of-15-tablets-2-1722349324.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "TROIKAA PHARMACEUTICALS LTD",
+        "mrpDecimal": "216.59",
+        "salePriceDecimal": "216.59",
+        "discountPercent": "0",
+        "discountDecimal": "0",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/U83014/doloxicam-dt-strip-of-15-tablets-2-1722349324.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/U83014/doloxicam-dt-strip-of-15-tablets-7-1722348567.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "14790836",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "11",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 18483,
+        "productType": 1,
+        "name": "Dolokind Tube Of 20gm Gel",
+        "variantCount": 0,
+        "slug": "dolokind-gel-20gm-18483",
+        "subtitleText": "20g Gel in Tube",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=18483",
+        "pricePerUnit": "4.52/gram",
+        "pricePerUnitNew": "",
+        "packform": "TUBE",
+        "measurementUnit": "20g Gel in Tube",
+        "image": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-1-1648475843.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 0,
+        "isRefrigerated": false,
+        "manufacturer": "MANKIND PHARMACEUTICALS LTD",
+        "mrpDecimal": "93.17",
+        "salePriceDecimal": "90.37",
+        "discountPercent": "3",
+        "discountDecimal": "2.80",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-1-1648475843.jpg",
+            "face": "box-front",
+            "sequence": "1"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-2-1648475839.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-3-1648475835.jpg",
+            "face": "combo",
+            "sequence": "3"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-5.1-1648475837.jpg",
+            "face": "box-side",
+            "sequence": "5.1"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/254774/dolokind-gel-20gm-7-1648475841.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15220135",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "5",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 236813,
+        "productType": 1,
+        "name": "Dolo Mf Bottle Of 60ml Suspension",
+        "variantCount": 0,
+        "slug": "dolo-mf-bottle-of-60ml-suspension-236813",
+        "subtitleText": "60ml Suspension in Bottle",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": null,
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=236813",
+        "pricePerUnit": "0.95/ml",
+        "pricePerUnitNew": "",
+        "packform": "BOTTLE",
+        "measurementUnit": "60ml Suspension in Bottle",
+        "image": "https://cdn01.pharmeasy.in/dam/products/K51369/dolo-mf-bottle-of-60ml-suspension-2-1726150370.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "MICRO LABS",
+        "mrpDecimal": "63.00",
+        "salePriceDecimal": "56.70",
+        "discountPercent": "10",
+        "discountDecimal": "6.30",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/K51369/dolo-mf-bottle-of-60ml-suspension-2-1726150370.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/K51369/dolo-mf-bottle-of-60ml-suspension-6.1-1726150257.jpg",
+            "face": "side",
+            "sequence": "6.1"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/K51369/dolo-mf-bottle-of-60ml-suspension-7-1726150416.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "15218642",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "4",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      },
+      {
+        "entityType": 2,
+        "entityText": "",
+        "productId": 44171,
+        "productType": 1,
+        "name": "Dolokind Aa Strip Of 10 Tablets",
+        "variantCount": 0,
+        "slug": "dolokind-aa-tablet-44171",
+        "subtitleText": "10 Tablet(s) in Strip",
+        "productTierAttributes": {
+          "type": 5,
+          "text": "Guaranteed Delivery"
+        },
+        "productAvailabilityFlags": {
+          "isAvailable": true,
+          "showVariantsInBottomSheet": false,
+          "notifyMe": false
+        },
+        "productSubstitutionAttributes": {
+          "count": 6,
+          "groupId": 20217
+        },
+        "similarProductsAttributes": null,
+        "maxQuantity": 20,
+        "minQuantity": 1,
+        "deeplink": "push.pharmeasy.clevertap://deeplink/medicine_details?medicine_id=44171",
+        "pricePerUnit": "11.5/tablet",
+        "pricePerUnitNew": "",
+        "packform": "STRIP",
+        "measurementUnit": "10 Tablet(s) in Strip",
+        "image": "https://cdn01.pharmeasy.in/dam/products/059475/dolokind-aa-tablet-2-1648475716.jpg?dim=80x80&f=jpg&dpr=3&q=60",
+        "isRxRequired": 1,
+        "isRefrigerated": false,
+        "manufacturer": "MANKIND PHARMACEUTICALS LTD",
+        "mrpDecimal": "114.95",
+        "salePriceDecimal": "114.95",
+        "discountPercent": "0",
+        "discountDecimal": "0",
+        "damImages": [
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059475/dolokind-aa-tablet-2-1648475716.jpg",
+            "face": "front",
+            "sequence": "2"
+          },
+          {
+            "url": "https://cdn01.pharmeasy.in/dam/products/059475/dolokind-aa-tablet-7-1648475714.jpg",
+            "face": "back",
+            "sequence": "7"
+          }
+        ],
+        "isSimilarAvailable": false,
+        "isGradedDiscountApplicable": false,
+        "labelDetails": {
+          "code": 0,
+          "name": ""
+        },
+        "ratingDetails": {
+          "value": 0,
+          "count": 0
+        },
+        "isSponsored": false,
+        "showSponsoredTag": false,
+        "listingId": "14896119",
+        "adId": null,
+        "adVendorId": null,
+        "plusDiscount": {
+          "discount": "5",
+          "isPercentageDiscount": true,
+          "absoluteDiscount": "6",
+          "tagLine": "Credits"
+        },
+        "variants": [],
+        "variantInfo": {
+
+        },
+        "variantsPackQuantities": [],
+        "isBestOfferApplied": false
+      }
+    ],
+    "suggestedNames": [],
+    "customMedicineRequest": {
+      "title": "Request for dolo",
+      "subtitle": "Our pharmacist may call you to confirm details for your requested medicine",
+      "imageUrl": "https://d3ow2108bmqeui.cloudfront.net/search_results_custom_medicine.png"
+    },
+    "uploadRxRequest": {
+      "title": "Order via Your Prescription",
+      "subtitle": "Our pharmacist will call you to confirm medicines from your prescription",
+      "imageUrl": "https://d3ow2108bmqeui.cloudfront.net/search_results_upload_rx.png"
+    },
+    "orderOnCallRequest": {
+      "title": "Speak To Our Expert Now",
+      "subtitle": "Call us and our pharmacists will help you place an order",
+      "imageUrl": "https://d3ow2108bmqeui.cloudfront.net/search_results_order_on_call.png"
+    },
+    "redirectTo": ""
+  },
+  "hasMorePages": true,
+  "query": {
+    "intent_id": "1736254134724",
+    "page": "2",
+    "q": "dolo"
+  }
+}

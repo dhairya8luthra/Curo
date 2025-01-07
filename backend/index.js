@@ -10,7 +10,115 @@ import chatRoutes from "./routes/medichatRoutes.js";
 import "./scheduler/reminderScheduler.js";
 import admin from "./firebaseAdmin.js";
 // Multer configuration for file uploads
+import axios from "axios";
+import zlib from "zlib";
+import { promisify } from "util";
 const upload = multer({ dest: "uploads/" });
+
+const gunzip = promisify(zlib.gunzip);
+
+// API configurations
+const PHARMEASY_BASE_URL = "https://pharmeasy.in/api/search/search/?intent_id=1736254134724";
+const ONE_MG_BASE_URL = "https://www.1mg.com/pharmacy_api_webservices/search-all";
+const APOLLO_BASE_URL = "https://search.apollo247.com/v3/fullSearch";
+
+const HEADERS = {
+  "User-Agent": "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/79.0.3945.130 Safari/537.36"
+};
+
+async function searchPharmEasy(searchTerm) {
+  try {
+    const response = await axios.get(`${PHARMEASY_BASE_URL}&q=${searchTerm}&page=0`, {
+      headers: HEADERS
+    });
+    
+    return response.data.data.products.map(product => ({
+      name: product.name,
+      price: product.salePriceDecimal,
+      availability: product.productAvailabilityFlags.isAvailable,
+      image: product.image
+    }));
+  } catch (error) {
+    console.error("PharmEasy Error:", error.message);
+    return [];
+  }
+}
+
+async function searchOneMg(searchTerm) {
+  try {
+    const response = await axios.get(ONE_MG_BASE_URL, {
+      params: {
+        city: "Gurgaon",
+        name: searchTerm,
+        pageSize: 40,
+        page_number: 0,
+        types: "sku,allopathy",
+        filter: true,
+        state: 1
+      },
+      responseType: "arraybuffer",
+      headers: { ...HEADERS, "Accept-Encoding": "gzip, deflate, br" }
+    });
+
+    let decompressedData;
+    const contentEncoding = response.headers["content-encoding"];
+    
+    if (contentEncoding?.includes("gzip")) {
+      decompressedData = await gunzip(response.data);
+    } else {
+      decompressedData = response.data;
+    }
+
+    const jsonData = JSON.parse(decompressedData.toString("utf-8"));
+    const products = [];
+
+    jsonData.results.forEach(result => {
+      if (result.value?.data && Array.isArray(result.value.data)) {
+        result.value.data.forEach(product => {
+          products.push({
+            name: product.brand_name || product.label,
+            price: product.discounted_price,
+            availability: true,
+            image: product.cropped_image
+          });
+        });
+      }
+    });
+
+    return products;
+  } catch (error) {
+    console.error("1mg Error:", error.message);
+    return [];
+  }
+}
+
+async function searchApollo(searchTerm) {
+  try {
+    const payload = {
+      query: searchTerm,
+      page: 1,
+      productsPerPage: 24,
+      selSortBy: "relevance",
+      filters: [],
+      pincode: ""
+    };
+
+    const response = await axios.post(APOLLO_BASE_URL, payload, {
+      headers: { ...HEADERS, "Content-Type": "application/json", "Authorization": "Oeu324WMvfKOj5KMJh2Lkf00eW1" }
+    });
+
+    return response.data.data.products.map(product => ({
+      name: product.name,
+      price: product.specialPrice || product.price,
+      availability: product.status === "AVAILABLE",
+      image: product.thumbnail
+    }));
+  } catch (error) {
+    console.error("Apollo Error:", error.message);
+    return [];
+  }
+}
+
 
 // Initialize Firebase Admin
 
@@ -491,6 +599,48 @@ app.delete("/api/medicine-reminder/:id", authenticateUser, async (req, res) => {
   } catch (err) {
     console.error(err);
     res.status(500).json({ error: err.message });
+  }
+});
+app.get("/api/medicine-search", authenticateUser, async (req, res) => {
+  try {
+    const { query } = req.query;
+    
+    if (!query) {
+      return res.status(400).json({ 
+        success: false, 
+        error: "Search query is required" 
+      });
+    }
+
+    const [pharmEasyResults, oneMgResults, apolloResults] = await Promise.all([
+      searchPharmEasy(query),
+      searchOneMg(query),
+      searchApollo(query)
+    ]);
+
+    res.json({
+      success: true,
+      data: {
+        pharmEasy: {
+          source: "PharmEasy",
+          products: pharmEasyResults
+        },
+        oneMg: {
+          source: "1mg",
+          products: oneMgResults
+        },
+        apollo: {
+          source: "Apollo",
+          products: apolloResults
+        }
+      }
+    });
+  } catch (error) {
+    console.error("Medicine search error:", error);
+    res.status(500).json({
+      success: false,
+      error: "Failed to search medicines across pharmacies"
+    });
   }
 });
 
