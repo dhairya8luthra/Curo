@@ -1,5 +1,5 @@
 import React from "react";
-import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare,AlarmClock } from 'lucide-react';
+import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare, AlarmClock, PillBottle } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { signOut } from "firebase/auth";
@@ -70,10 +70,12 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           className={`w-full justify-start ${activeTab === "hospitals" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
             setActiveTab("hospitals")
+            navigate(`/nearby-services/${user.uid}`);
+
           }}
         >
           <MapPin className="mr-2 h-4 w-4" />
-          Find Hospitals
+          Find HealthCare Services
         </Button>
         <Button
           variant={activeTab === "records" ? "default" : "ghost"}
@@ -89,7 +91,11 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
         <Button
           variant={activeTab === "appointments" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "appointments" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
-          onClick={() => setActiveTab("appointments")}
+          onClick={() => {
+            setActiveTab("appointments")
+            navigate(`/appointments/${user.uid}`);
+
+          }}
         >
           <Calendar className="mr-2 h-4 w-4" />
           Appointments
@@ -116,7 +122,19 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           <AlarmClock className="mr-2 h-4 w-4" />
           Medicine Reminder
         </Button>
+        <Button
+          variant={activeTab === "Compare Medicine Prices" ? "default" : "ghost"}
+          className={`w-full justify-start ${activeTab === "Compare Medicine Prices" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
+          onClick={() => {
+            setActiveTab("Compare Medicine Prices")
+            navigate(`/medicineprice/${user.uid}`);
+          }}
+        >
+          <PillBottle className="mr-2 h-4 w-4" />
+          Compare Medicine Prices
+        </Button>
       </nav>
+
 
       <div className="space-y-2 pt-4 border-t border-gray-200">
         <Button

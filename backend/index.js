@@ -28,21 +28,34 @@ const HEADERS = {
 
 async function searchPharmEasy(searchTerm) {
   try {
-    const response = await axios.get(`${PHARMEASY_BASE_URL}&q=${searchTerm}&page=0`, {
+    const response = await axios.get(`${PHARMEASY_BASE_URL}&q=${searchTerm}&page=1`, {
       headers: HEADERS
     });
-    
-    return response.data.data.products.map(product => ({
+
+    // Log full response for debugging
+    console.log("API Response:", response.data);
+
+    const products = response.data?.data?.products;
+    if (!products || products.length === 0) {
+      console.warn("No products found for the given search term.");
+      return [];
+    }
+
+    // Map and return product details
+    return products.map(product => ({
       name: product.name,
       price: product.salePriceDecimal,
       availability: product.productAvailabilityFlags.isAvailable,
-      image: product.image
+      image: product.image,
+      url: "https://pharmeasy.in/online-medicine-order/"+product.slug
     }));
   } catch (error) {
-    console.error("PharmEasy Error:", error.message);
+    // Improved error logging
+    console.error("PharmEasy Error:", error.response ? error.response.data : error.message);
     return [];
   }
 }
+
 
 async function searchOneMg(searchTerm) {
   try {
@@ -76,10 +89,11 @@ async function searchOneMg(searchTerm) {
       if (result.value?.data && Array.isArray(result.value.data)) {
         result.value.data.forEach(product => {
           products.push({
-            name: product.brand_name || product.label,
+            name: product.label,
             price: product.discounted_price,
             availability: true,
-            image: product.cropped_image
+            image: product.cropped_image,
+            url: "https://www.1mg.com"+product.url
           });
         });
       }
@@ -111,7 +125,9 @@ async function searchApollo(searchTerm) {
       name: product.name,
       price: product.specialPrice || product.price,
       availability: product.status === "AVAILABLE",
-      image: product.thumbnail
+      image: "https://images.apollo247.in/pub/media"+product.thumbnail,
+      url: "https://www.apollopharmacy.in/search-medicines/"+encodeURIComponent(product.name)
+
     }));
   } catch (error) {
     console.error("Apollo Error:", error.message);
@@ -227,29 +243,133 @@ app.post("/api/auth/google", async (req, res) => {
 });
 
 // Google Maps / Nearby Hospitals endpoint (protected)
+// Google Maps / Nearby Hospitals endpoint (protected)
 app.get("/api/maps/nearby-hospitals", authenticateUser, async (req, res) => {
   try {
     const { lat, lng, radius = 5000 } = req.query;
     if (!lat || !lng) {
       return res.status(400).json({ error: "Missing lat or lng query params" });
     }
-
+ 
     const googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
     if (!googleApiKey) {
       return res.status(500).json({ error: "Missing Google Maps API key" });
     }
-
+ 
     // Construct the Nearby Search URL
     const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=hospital&key=${googleApiKey}`;
-
+ 
     const response = await fetch(url);
     const data = await response.json();
     console.log("Nearby hospitals data:", data);
-
+ 
     // Send the entire response or transform it as needed
     res.json(data);
   } catch (error) {
     console.error("Nearby hospitals error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/api/maps/nearby-lab", authenticateUser, async (req, res) => {
+  try {
+    const { lat, lng, radius = 5000 } = req.query;
+    if (!lat || !lng) {
+      return res.status(400).json({ error: "Missing lat or lng query params" });
+    }
+ 
+    const googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!googleApiKey) {
+      return res.status(500).json({ error: "Missing Google Maps API key" });
+    }
+ 
+    // Construct the Nearby Search URL
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=any&keyword=medical-lab&key=${googleApiKey}`;
+ 
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Nearby hospitals data:", data);
+ 
+    // Send the entire response or transform it as needed
+    res.json(data);
+  } catch (error) {
+    console.error("Nearby hospitals error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/api/maps/nearby-doctor", authenticateUser, async (req, res) => {
+  try {
+    const { lat, lng, radius = 5000 } = req.query;
+    if (!lat || !lng) {
+      return res.status(400).json({ error: "Missing lat or lng query params" });
+    }
+ 
+    const googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!googleApiKey) {
+      return res.status(500).json({ error: "Missing Google Maps API key" });
+    }
+ 
+    // Construct the Nearby Search URL
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=doctor&key=${googleApiKey}`
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Nearby doctor data:", data);
+ 
+    // Send the entire response or transform it as needed
+    res.json(data);
+  } catch (error) {
+    console.error("Nearby doctor error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+ 
+app.get("/api/maps/nearby-doctor-type", authenticateUser, async (req, res) => {
+  try {
+    const { lat, lng, radius = 5000,keyword } = req.query;
+    if (!lat || !lng) {
+      return res.status(400).json({ error: "Missing lat or lng query params" });
+    }
+ 
+    const googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!googleApiKey) {
+      return res.status(500).json({ error: "Missing Google Maps API key" });
+    }
+ 
+    // Construct the Nearby Search URL
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=doctor&keyword=${keyword}&key=${googleApiKey}`
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Nearby doctor data:", data);
+ 
+    // Send the entire response or transform it as needed
+    res.json(data);
+  } catch (error) {
+    console.error("Nearby doctor error:", error);
+    res.status(500).json({ error: error.message });
+  }
+});
+app.get("/api/maps/nearby-pharmacy", authenticateUser, async (req, res) => {
+  try {
+    const { lat, lng, radius = 5000 } = req.query;
+    if (!lat || !lng) {
+      return res.status(400).json({ error: "Missing lat or lng query params" });
+    }
+ 
+    const googleApiKey = process.env.GOOGLE_MAPS_API_KEY;
+    if (!googleApiKey) {
+      return res.status(500).json({ error: "Missing Google Maps API key" });
+    }
+ 
+    // Construct the Nearby Search URL
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=pharmacy&key=${googleApiKey}`;
+ 
+    const response = await fetch(url);
+    const data = await response.json();
+    console.log("Nearby pharmacy data:", data);
+ 
+    // Send the entire response or transform it as needed
+    res.json(data);
+  } catch (error) {
+    console.error("Nearby pharmacy error:", error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -601,10 +721,10 @@ app.delete("/api/medicine-reminder/:id", authenticateUser, async (req, res) => {
     res.status(500).json({ error: err.message });
   }
 });
-app.get("/api/medicine-search", authenticateUser, async (req, res) => {
+app.get("/api/medicine-search/", authenticateUser, async (req, res) => {
   try {
     const { query } = req.query;
-    
+    console.log("hello");
     if (!query) {
       return res.status(400).json({ 
         success: false, 
@@ -635,12 +755,107 @@ app.get("/api/medicine-search", authenticateUser, async (req, res) => {
         }
       }
     });
+    console.log(res.json);
   } catch (error) {
     console.error("Medicine search error:", error);
     res.status(500).json({
       success: false,
       error: "Failed to search medicines across pharmacies"
     });
+  }
+});
+
+app.get('/api/appointments-fetch', async (req, res) => {
+  const userId = req.query.user_id;
+  console.log(userId); // Assuming user_id is required
+  const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("uid", userId)
+        .single();
+ 
+      if (userError || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+ 
+ 
+  if (!userId) {
+      res.status(400).json({ error: 'Missing user_id' });
+      return;
+  }
+ 
+  const { data, error } = await supabase
+      .from('appointments')
+      .select('*')
+      .eq('user_id', user.id);
+ 
+  if (error) {
+      console.error('Error fetching appointments:', error);
+      res.status(500).json({ error: 'Failed to fetch appointments' });
+  } else {
+      res.status(200).json(data);
+  }
+});
+ 
+// API endpoint to save an appointment
+app.post('/api/appointments-save', async (req, res) => {
+  const { day_of_week, time, title, user_id } = req.body;
+ 
+  // Basic validation
+  if (!day_of_week || !time || !title || !user_id) {
+    return res.status(400).json({ error: 'Missing required fields' });
+  }
+ 
+  if (typeof day_of_week !== 'number' || typeof time !== 'string' || 
+      typeof title !== 'string' || typeof user_id !== 'string') {
+    return res.status(400).json({ error: 'Invalid data format' });
+  }
+ 
+  // Additional validation for day_of_week (0-6 for Sunday-Saturday)
+  if (day_of_week < 0 || day_of_week > 6) {
+    return res.status(400).json({ error: 'day_of_week must be between 0 and 6' });
+  }
+ 
+  try {
+    const { data: user, error: userError } = await supabase
+        .from("users")
+        .select("id")
+        .eq("uid", user_id)
+        .single();
+ 
+      if (userError || !user) {
+        return res.status(404).json({ error: "User not found" });
+      }
+ 
+ 
+  if (!user_id) {
+      res.status(400).json({ error: 'Missing user_id' });
+      return;
+  }
+    const { data, error } = await supabase
+      .from('appointments')
+      .insert([{ 
+        day_of_week,
+        time,
+        title,
+        user_id:user.id
+      }])
+      .select();  // Add this to return the inserted data
+ 
+    if (error) {
+      console.error('Supabase error:', error);
+      return res.status(500).json({ error: error.message });
+    }
+ 
+    // Send success response with the inserted data
+    return res.status(201).json({ 
+      message: 'Appointment saved successfully',
+      appointment: data[0]
+    });
+ 
+  } catch (err) {
+    console.error('Error saving appointment:', err.message);
+    return res.status(500).json({ error: 'Failed to save appointment' });
   }
 });
 

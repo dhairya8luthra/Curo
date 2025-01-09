@@ -1,5 +1,5 @@
-// pages/Dashboard.js
-import React from "react";
+// pages/Dashboard.tsx
+import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
 import DashboardMap from "../components/dashboard/DashboardMap";
@@ -14,9 +14,38 @@ import { Card } from "@/components/ui/card";
 export default function Dashboard() {
   const [activeTab, setActiveTab] = React.useState("overview");
   const { uid } = useParams();
-
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const [showOverlay, setShowOverlay] = useState(false);
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser ? JSON.parse(sessionUser) : null;
+
+  const handleProfileSelect = () => {
+    if (user) {
+      // Toggle overlay visibility
+      setShowOverlay((prev) => !prev);
+    } else {
+      console.error("No user data available in session storage.");
+    }
+  };
+
+  const handleClickOutside = (event: MouseEvent) => {
+    // Check if the click is outside the button or overlay
+    if (
+      overlayRef.current && !overlayRef.current.contains(event.target as Node) &&
+      buttonRef.current && !buttonRef.current.contains(event.target as Node)
+    ) {
+      setShowOverlay(false); // Close overlay
+    }
+  };
+
+  useEffect(() => {
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
 
   return (
     <div className="flex min-h-screen w-screen bg-gray-50">
@@ -34,15 +63,14 @@ export default function Dashboard() {
             </p>
           </div>
 
-          <div className="flex items-center space-x-4">
+          <div className="flex items-center space-x-4 relative">
+            {/* Search Input */}
             <div className="relative">
-              <Input
-                type="search"
-                placeholder="Search..."
-                className="pl-10 w-64"
-              />
+              <Input type="search" placeholder="Search..." className="pl-10 w-64" />
               <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
             </div>
+
+            {/* Bell Icon */}
             <Button
               variant="ghost"
               size="icon"
@@ -50,14 +78,33 @@ export default function Dashboard() {
             >
               <Bell className="h-5 w-5" />
             </Button>
+
+            {/* User Icon */}
             <Button
+              ref={buttonRef} // Attach buttonRef to the button
               variant="ghost"
               size="icon"
               className="text-gray-600 hover:text-blue-500 hover:bg-blue-50"
+              onClick={handleProfileSelect}
             >
               <User className="h-5 w-5" />
             </Button>
+
+
+            {/* Overlay */}
+            {showOverlay && user && (
+              <div
+                ref={overlayRef} // Attach overlayRef to the overlay div
+                className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-300 shadow-lg rounded-md p-4 z-10"
+              >
+                <p className="text-gray-700 font-medium">Name: {user.name}</p>
+                <p className="text-gray-700 font-medium">Email: {user.email}</p>
+              </div>
+            )}
+
           </div>
+
+
         </header>
 
         {/* Dashboard Content */}

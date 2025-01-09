@@ -1,0 +1,89 @@
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+    animation: fadeIn 0.3s ease-in-out;
+  }
+ 
+  .modal {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    width: 320px;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    animation: slideIn 0.3s ease-in-out;
+  }
+ 
+  .modal h2 {
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+    color: #333;
+  }
+ 
+  .modal-input {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+  }
+ 
+  .modal-actions {
+    display: flex;
+    justify-content: space-between;
+  }
+ 
+  .modal-button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-size: 1rem;
+    transition: background-color 0.3s ease;
+  }
+ 
+  .modal-button.cancel {
+    background: #f8f9fa;
+    color: #333;
+  }
+ 
+  .modal-button.cancel:hover {
+    background: #e2e6ea;
+  }
+ 
+  .modal-button.save {
+    background: #007bff;
+    color: white;
+  }
+ 
+  .modal-button.save:hover {
+    background: #0056b3;
+  }
+ 
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+    }
+    to {
+      opacity: 1;
+    }
+  }
+ 
+  @keyframes slideIn {
+    from {
+      transform: translateY(-10px);
+    }
+    to {
+      transform: translateY(0);
+    }
+  }
+ 

@@ -87,6 +87,76 @@ export default function DashboardMap() {
     }
   };
 
+  const fetchDoctors = async (lat: number, lng: number) => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("No logged-in user. Please sign in first.");
+      }
+
+      const token = await user.getIdToken();
+      const url = `http://localhost:3000/api/maps/nearby-doctor?lat=${lat}&lng=${lng}&radius=${radius}`;
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to fetch nearby doctor");
+      }
+
+      const data = await response.json();
+      setHospitals(data.results || []);
+      setCurrentPage(1); // Reset to first page when new data is loaded
+      console.log(data.results);
+    } catch (err: any) {
+      setError(err.message || "Error fetching doctor");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const fetchPharmacy = async (lat: number, lng: number) => {
+    setLoading(true);
+    setError("");
+
+    try {
+      const auth = getAuth();
+      const user = auth.currentUser;
+      if (!user) {
+        throw new Error("No logged-in user. Please sign in first.");
+      }
+
+      const token = await user.getIdToken();
+      const url = `http://localhost:3000/api/maps/nearby-pharmacy?lat=${lat}&lng=${lng}&radius=${radius}`;
+
+      const response = await fetch(url, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      console.log(response);
+      if (!response.ok) {
+        throw new Error("Failed to fetch nearby pharmacy");
+      }
+
+      const data = await response.json();
+      setHospitals(data.results || []);
+      setCurrentPage(1); // Reset to first page when new data is loaded
+      console.log(data.results);
+    } catch (err: any) {
+      setError(err.message || "Error fetching pharmacy");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   const handleFindHospitals = () => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser.");
@@ -98,6 +168,42 @@ export default function DashboardMap() {
         const lng = position.coords.longitude;
         setUserLatLng({ lat, lng });
         fetchHospitals(lat, lng);
+      },
+      (err) => {
+        console.error(err);
+        setError("Could not get your location. Please allow location access.");
+      }
+    );
+  };
+  const handleFindDoctor = () => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setUserLatLng({ lat, lng });
+        fetchDoctors(lat, lng);
+      },
+      (err) => {
+        console.error(err);
+        setError("Could not get your location. Please allow location access.");
+      }
+    );
+  };
+  const handleFindPharmacy = () => {
+    if (!navigator.geolocation) {
+      setError("Geolocation is not supported by your browser.");
+      return;
+    }
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const lat = position.coords.latitude;
+        const lng = position.coords.longitude;
+        setUserLatLng({ lat, lng });
+        fetchPharmacy(lat, lng);
       },
       (err) => {
         console.error(err);
@@ -155,7 +261,7 @@ export default function DashboardMap() {
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Nearby Hospitals</h2>
+        <h2 className="text-lg font-semibold">Nearby Healthcare Services</h2>
         <select
           className="border rounded-md p-2"
           value={radius}
@@ -168,14 +274,28 @@ export default function DashboardMap() {
         </select>
       </div>
 
-      <button
-        onClick={handleFindHospitals}
-        className="px-4 py-2 bg-blue-600 text-white rounded-md mb-4 hover:bg-blue-700"
-      >
-        Find Hospitals
-      </button>
+      <div className="flex justify-center items-center space-x-2 mb-4">
+        <button
+          onClick={handleFindHospitals}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Find Hospitals
+        </button>
+        <button
+          onClick={handleFindDoctor}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Find Doctor
+        </button>
+        <button
+          onClick={handleFindPharmacy}
+          className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700"
+        >
+          Find Pharmacy
+        </button>
+      </div>
 
-      {loading && <p>Loading hospitals...</p>}
+      {loading && <p>Loading services...</p>}
       {error && <p className="text-red-500">{error}</p>}
 
       <div
