@@ -49,8 +49,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
     <aside className="w-64 bg-white border-r border-gray-200 p-4 flex flex-col">
       <div className="flex items-center space-x-2 mb-8">
-        <div className="w-8 h-8 bg-blue-500 rounded-full"></div>
-        <span className="text-2xl font-bold text-blue-800">Curo</span>
+      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full"></div>
+      <span className="text-2xl font-bold text-blue-800">Curo</span>
       </div>
 
       <nav className="space-y-2 flex-1">

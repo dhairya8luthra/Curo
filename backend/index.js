@@ -13,7 +13,9 @@ import admin from "./firebaseAdmin.js";
 import axios from "axios";
 import zlib from "zlib";
 import { promisify } from "util";
+import appointmentRoutes from './routes/appointmentRoutes.js';
 const upload = multer({ dest: "uploads/" });
+
 
 const gunzip = promisify(zlib.gunzip);
 
@@ -246,7 +248,7 @@ app.post("/api/auth/google", async (req, res) => {
 // Google Maps / Nearby Hospitals endpoint (protected)
 app.get("/api/maps/nearby-hospitals", authenticateUser, async (req, res) => {
   try {
-    const { lat, lng, radius = 5000 } = req.query;
+    const { lat, lng, radius } = req.query;
     if (!lat || !lng) {
       return res.status(400).json({ error: "Missing lat or lng query params" });
     }
@@ -309,7 +311,7 @@ app.get("/api/maps/nearby-doctor", authenticateUser, async (req, res) => {
     }
  
     // Construct the Nearby Search URL
-    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=doctor&key=${googleApiKey}`
+    const url = `https://maps.googleapis.com/maps/api/place/nearbysearch/json?location=${lat},${lng}&radius=${radius}&type=doctor&keyword=doctor&key=${googleApiKey}`
     const response = await fetch(url);
     const data = await response.json();
     console.log("Nearby doctor data:", data);
@@ -858,6 +860,10 @@ app.post('/api/appointments-save', async (req, res) => {
     return res.status(500).json({ error: 'Failed to save appointment' });
   }
 });
+
+//Appointment Routes
+
+app.use('/api/appointments', appointmentRoutes);
 
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {

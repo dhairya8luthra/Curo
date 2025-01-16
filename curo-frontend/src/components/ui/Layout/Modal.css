@@ -1,89 +1,118 @@
+/* Modal Overlay */
 .modal-overlay {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.5);
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1000;
-    animation: fadeIn 0.3s ease-in-out;
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.5); /* Semi-transparent background */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+  animation: fadeIn 0.3s ease-in-out;
+}
+
+/* Modal Box */
+.modal {
+  background: #ffffff; /* Pure white background */
+  padding: 20px;
+  border-radius: 12px; /* Slightly rounded corners */
+  width: 320px;
+  text-align: center;
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.15); /* Deeper shadow for a modern look */
+  animation: slideIn 0.3s ease-in-out;
+}
+
+/* Modal Title */
+.modal h2 {
+  margin-bottom: 20px;
+  font-size: 1.6rem;
+  color: #222; /* Darker text for better contrast */
+  font-weight: bold;
+}
+
+/* Input Fields */
+.modal-input {
+  width: 100%;
+  padding: 12px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+  outline: none;
+  transition: border-color 0.3s ease;
+}
+
+.modal-input:focus {
+  border-color: #007bff; /* Highlight border on focus */
+  box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+}
+
+/* Modal Actions (Buttons Container) */
+.modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 10px; /* Add spacing between buttons */
+}
+
+/* Buttons */
+.modal-button {
+  flex: 1; /* Equal width for buttons */
+  padding: 10px 15px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  font-weight: bold;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+/* Cancel Button */
+.modal-button.cancel {
+  background: #f8f9fa;
+  color: #333;
+}
+
+.modal-button.cancel:hover {
+  background: #e2e6ea;
+  transform: scale(1.05);
+}
+
+.modal-button.cancel:focus {
+  outline: 2px solid #e2e6ea;
+}
+
+/* Save Button */
+.modal-button.save {
+  background: #007bff;
+  color: #fff;
+}
+
+.modal-button.save:hover {
+  background: #0056b3;
+  transform: scale(1.05);
+}
+
+.modal-button.save:focus {
+  outline: 2px solid #0056b3;
+}
+
+/* Animations */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
   }
- 
-  .modal {
-    background: white;
-    padding: 20px;
-    border-radius: 10px;
-    width: 320px;
-    text-align: center;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-    animation: slideIn 0.3s ease-in-out;
+  to {
+    opacity: 1;
   }
- 
-  .modal h2 {
-    margin-bottom: 15px;
-    font-size: 1.5rem;
-    color: #333;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-15px);
   }
- 
-  .modal-input {
-    width: 100%;
-    padding: 12px;
-    margin-bottom: 15px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 1rem;
+  to {
+    transform: translateY(0);
   }
- 
-  .modal-actions {
-    display: flex;
-    justify-content: space-between;
-  }
- 
-  .modal-button {
-    padding: 10px 20px;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.3s ease;
-  }
- 
-  .modal-button.cancel {
-    background: #f8f9fa;
-    color: #333;
-  }
- 
-  .modal-button.cancel:hover {
-    background: #e2e6ea;
-  }
- 
-  .modal-button.save {
-    background: #007bff;
-    color: white;
-  }
- 
-  .modal-button.save:hover {
-    background: #0056b3;
-  }
- 
-  @keyframes fadeIn {
-    from {
-      opacity: 0;
-    }
-    to {
-      opacity: 1;
-    }
-  }
- 
-  @keyframes slideIn {
-    from {
-      transform: translateY(-10px);
-    }
-    to {
-      transform: translateY(0);
-    }
-  }
- 
+}

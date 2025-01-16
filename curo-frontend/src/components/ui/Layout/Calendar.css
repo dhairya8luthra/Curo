@@ -1,91 +1,62 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
 .calendar {
-    display: grid;
-    grid-template-rows: auto 1fr;
-    gap: 10px;
-    max-width: 1000px;
-    margin: 0 auto;
-    border: 1px solid #ddd;
-    border-radius: 8px;
-    background-color: #f9f9f9;
-  }
- 
-  .calendar-header {
-    display: grid;
-    grid-template-columns: 50px repeat(7, 1fr);
-    background-color: #007bff;
-    color: white;
-    text-align: center;
-    padding: 10px 0;
-    border-top-left-radius: 8px;
-    border-top-right-radius: 8px;
-  }
- 
-  .time-label-header {
-    background-color: #007bff;
-  }
- 
-  .calendar-day-header {
-    font-weight: bold;
-  }
- 
-  .calendar-body {
-    display: grid;
-    grid-template-columns: 50px repeat(7, 1fr);
-    border-bottom-left-radius: 8px;
-    border-bottom-right-radius: 8px;
-    overflow: hidden;
-  }
- 
-  .time-label-column {
-    display: grid;
-    grid-template-rows: repeat(24, 1fr);
-    border-right: 1px solid #ddd;
-  }
- 
-  .time-label-hour {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    height: 100%;
-    font-size: 0.9em;
-    color: #666;
-    background-color: #f0f0f0;
-    border-bottom: 1px solid #ddd;
-  }
- 
-  .calendar-day {
-    border-left: 1px solid #ddd;
-    position: relative;
-  }
- 
-  .calendar-hour {
-    display: grid;
-    grid-template-rows: repeat(4, 1fr);
-    border-bottom: 1px solid #ddd;
-  }
- 
-  .calendar-quarter {
-    border-top: 1px dashed #ddd;
-    padding: 5px;
-    position: relative;
-    cursor: pointer;
-    background-color: #fff;
-  }
- 
-  .calendar-quarter:hover {
-    background-color: #e7f1ff;
-  }
- 
-  .appointment {
-    background-color: #007bff;
-    color: white;
-    border-radius: 4px;
-    padding: 2px 5px;
-    font-size: 0.9em;
-    position: absolute;
-    width: calc(100% - 10px);
-    top: 50%;
-    left: 5px;
-    transform: translateY(-50%);
-  }
- 
+  @apply max-w-7xl mx-auto bg-white rounded-xl shadow-lg border border-gray-200;
+  height: calc(100vh - 2rem);
+}
+
+.calendar-header {
+  @apply grid bg-gradient-to-r from-indigo-600 to-indigo-700 text-white;
+  grid-template-columns: 60px repeat(7, 1fr);
+}
+
+.time-label-header {
+  @apply border-r border-indigo-500 p-4;
+}
+
+.calendar-day-header {
+  @apply p-4 text-center border-r border-indigo-500 last:border-r-0 font-medium;
+}
+
+.calendar-body {
+  @apply grid overflow-auto;
+  grid-template-columns: 60px repeat(7, 1fr);
+  height: calc(100% - 60px);
+}
+
+.time-label-column {
+  @apply bg-gray-50 border-r border-gray-200 sticky left-0 z-10;
+}
+
+.time-label-hour {
+  @apply h-20 flex items-center justify-center text-sm text-gray-600 font-medium border-b border-gray-200;
+}
+
+.calendar-day {
+  @apply relative border-r border-gray-200 last:border-r-0;
+}
+
+.calendar-hour {
+  @apply h-20 border-b border-gray-200 last:border-b-0 relative;
+}
+
+.calendar-quarter {
+  @apply h-1/4 relative cursor-pointer transition-colors hover:bg-indigo-50;
+}
+
+.calendar-quarter:hover::after {
+  @apply absolute -top-6 left-1/2 transform -translate-x-1/2 bg-gray-900 text-white text-xs px-2 py-1 rounded pointer-events-none z-20;
+  content: attr(data-time);
+}
+
+.appointment {
+  @apply absolute left-1 right-1 bg-indigo-600 text-white text-xs p-1.5 rounded shadow-sm overflow-hidden whitespace-nowrap z-10;
+  background: linear-gradient(135deg, #4f46e5 0%, #6366f1 100%);
+}
+
+.appointment:hover {
+  @apply bg-indigo-700 shadow-md;
+  z-index: 15;
+}

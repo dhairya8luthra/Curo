@@ -50,10 +50,10 @@ export default function HealthRecord() {
 
 
   return (
-    <div className="flex min-h-screen w-screen bg-gray-50">
+    <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
 
-      <main className="flex-1 p-4 md:p-8">
+      <main className="flex-1 p-8 overflow-auto">
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Health Records</h1>

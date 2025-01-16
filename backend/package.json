@@ -27,6 +27,7 @@
     "axios": "^1.7.9",
     "backend": "file:",
     "cors": "^2.8.5",
+    "date-fns": "^4.1.0",
     "dotenv": "^16.4.7",
     "express": "^4.21.2",
     "firebase": "^11.1.0",
