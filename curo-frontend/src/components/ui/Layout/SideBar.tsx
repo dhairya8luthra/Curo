@@ -1,11 +1,10 @@
 import React from "react";
-import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare, AlarmClock, PillBottle } from 'lucide-react';
+import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare, AlarmClock, PillBottle,BadgePercentIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";
 import { signOut } from "firebase/auth";
 import { auth } from "@/lib/firebase";
 import { useNavigate } from 'react-router-dom';
-
 
 interface SidebarProps {
   activeTab: string;
@@ -49,8 +48,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
   return (
     <aside className="w-64 bg-white border-r border-gray-200 p-4 flex flex-col">
       <div className="flex items-center space-x-2 mb-8">
-      <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full"></div>
-      <span className="text-2xl font-bold text-blue-800">Curo</span>
+        <div className="w-8 h-8 bg-gradient-to-br from-blue-400 to-blue-600 rounded-full"></div>
+        <span className="text-2xl font-bold text-blue-800">Curo</span>
       </div>
 
       <nav className="space-y-2 flex-1">
@@ -58,7 +57,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "overview" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "overview" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("overview")
+            setActiveTab("overview");
             navigate(`/userdashboard/${user.uid}`);
           }}
         >
@@ -69,9 +68,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "hospitals" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "hospitals" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("hospitals")
+            setActiveTab("hospitals");
             navigate(`/nearby-services/${user.uid}`);
-
           }}
         >
           <MapPin className="mr-2 h-4 w-4" />
@@ -81,7 +79,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "records" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "records" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("records")
+            setActiveTab("records");
             navigate(`/healthrecords/${user.uid}`);
           }}
         >
@@ -92,9 +90,8 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "appointments" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "appointments" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("appointments")
+            setActiveTab("appointments");
             navigate(`/appointments/${user.uid}`);
-
           }}
         >
           <Calendar className="mr-2 h-4 w-4" />
@@ -104,7 +101,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "medichat" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "medichat" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("medichat")
+            setActiveTab("medichat");
             navigate(`/medichat/${user.uid}`);
           }}
         >
@@ -115,7 +112,7 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "Medicine Reminder" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "Medicine Reminder" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("Medicine Reminder")
+            setActiveTab("Medicine Reminder");
             navigate(`/reminder/${user.uid}`);
           }}
         >
@@ -126,15 +123,25 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
           variant={activeTab === "Compare Medicine Prices" ? "default" : "ghost"}
           className={`w-full justify-start ${activeTab === "Compare Medicine Prices" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
           onClick={() => {
-            setActiveTab("Compare Medicine Prices")
+            setActiveTab("Compare Medicine Prices");
             navigate(`/medicineprice/${user.uid}`);
           }}
         >
           <PillBottle className="mr-2 h-4 w-4" />
           Compare Medicine Prices
         </Button>
+        <Button
+          variant={activeTab === "Insurance Premium Predictor" ? "default" : "ghost"}
+          className={`w-full justify-start ${activeTab === "Insurance Premium Predictor" ? "bg-blue-500 text-white hover:bg-blue-600" : "text-gray-600 hover:text-blue-500 hover:bg-blue-50"}`}
+          onClick={() => {
+            setActiveTab("Insurance Premium Predictor");
+            navigate(`/premium-predictor/${user.uid}`);
+          }}
+        >
+          <BadgePercentIcon className="mr-2 h-4 w-4" />
+          Premium Predictor
+        </Button>
       </nav>
-
 
       <div className="space-y-2 pt-4 border-t border-gray-200">
         <Button
@@ -156,4 +163,3 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
     </aside>
   );
 }
-

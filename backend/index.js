@@ -14,6 +14,7 @@ import axios from "axios";
 import zlib from "zlib";
 import { promisify } from "util";
 import appointmentRoutes from './routes/appointmentRoutes.js';
+import premiumPredictorRoutes from './routes/premiumPredictorRoutes.js';
 const upload = multer({ dest: "uploads/" });
 
 
@@ -864,6 +865,9 @@ app.post('/api/appointments-save', async (req, res) => {
 //Appointment Routes
 
 app.use('/api/appointments', appointmentRoutes);
+
+//Premium Predictor Routes
+app.use('/api/premium-predictor', premiumPredictorRoutes);
 
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {

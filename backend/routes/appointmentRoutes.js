@@ -96,7 +96,9 @@ router.get('/', authenticateUser, async (req, res) => {
       if(existingPatient){
         const { page = 1, perPage = 10, status } = req.query;
         
-        const appointments = await nexhealthService.getAppointments(page, perPage, status,patients.data.patients[0].id);
+        const appointments = await nexhealthService.getAppointments(page, perPage, status,patients.data.patients[0].id
+
+        );
         res.json(appointments);
 
       }
@@ -105,6 +107,7 @@ router.get('/', authenticateUser, async (req, res) => {
       }
       
   } catch (error) {
+    console.log(error.response.data.error);
     res.status(500).json({ error: 'Failed to fetch appointments' });
   }
 });

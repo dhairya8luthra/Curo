@@ -8,6 +8,7 @@ import MedicineReminderPage from "./pages/Reminder";
 import MedicinePricePage from "./pages/MedicinePrice";
 import NearbyServicesPage from "./pages/Findservices";
 import Appointments from "./pages/Appointments";
+import PremiumPredictor from "./pages/PremiumPredictor";
 function App() {
 
 
@@ -24,6 +25,7 @@ function App() {
           <Route path="/medicineprice/:uid" element={<MedicinePricePage />} />
           <Route path="/nearby-services/:uid" element={<NearbyServicesPage />} />
           <Route path="/appointments/:uid" element={<Appointments />} />
+          <Route path="/premium-predictor/:uid" element={<PremiumPredictor />} />
         </Routes>
       </Router>
 

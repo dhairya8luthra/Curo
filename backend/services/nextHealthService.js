@@ -100,17 +100,17 @@ class NexHealthService {
     }
   }
 
-  async getAppointments(page = 1, perPage = 10, status = null,patientid) {
+  async getAppointments(page = 2, perPage = 100, status = null,patientid) {
     const headers = await this.getAuthHeaders();
     try {
       const params = {
         subdomain: SUBDOMAIN,
         location_id:LOCATION_ID,
-        start:sub(new Date(), { years: 1 }),
+        start:sub(new Date(), { days: 1 }),
         end:add(new Date(), { months: 1 }),
         patient_id:patientid,
         page,
-        per_page: perPage,
+        per_page: 100,
         include: ['patient']
       };
       
@@ -163,7 +163,9 @@ class NexHealthService {
           headers
         }
       );
+      console.log(response.data);
       return response.data;
+     
     } catch (error) {
       console.error('Failed to create appointment:', error);
       throw error;
