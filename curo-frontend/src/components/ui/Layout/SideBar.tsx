@@ -144,12 +144,16 @@ export default function Sidebar({ activeTab, setActiveTab }: SidebarProps) {
       </nav>
 
       <div className="space-y-2 pt-4 border-t border-gray-200">
-        <Button
+      <Button
           variant="ghost"
           className="w-full justify-start text-gray-600 hover:text-blue-500 hover:bg-blue-50"
+          onClick={() => {
+            setActiveTab("User Profile");
+            navigate(`/user-profile/${user.uid}`);
+          }}
         >
           <Settings className="mr-2 h-4 w-4" />
-          Settings
+          Profile
         </Button>
         <Button
           variant="ghost"

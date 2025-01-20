@@ -39,6 +39,7 @@ export default function HealthRecord() {
     const result = await response.json();
     if (response.ok) {
       setRecords(result.records);
+      console.log("Records fetched successfully:", result.records);
     } else {
       console.error("Error fetching records:", result.error);
     }

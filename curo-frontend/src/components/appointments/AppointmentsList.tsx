@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useMemo } from "react";
 import { format } from "date-fns";
 import { Calendar, Clock, User2 } from "lucide-react";
 import {
@@ -33,34 +33,34 @@ export default function AppointmentsList({
 }: AppointmentsListProps) {
   const [currentPage, setCurrentPage] = useState(1);
   const [activeTab1, setActiveTab1] = useState<"upcoming" | "past">("upcoming");
-  const [paginatedAppointments, setPaginatedAppointments] = useState<
-    Appointment[]
-  >([]);
 
-  const now = new Date();
+  const now = useMemo(() => new Date(), []); // Memoize now to prevent unnecessary recalculations
 
-  // Filter based on upcoming/past
-  const filteredAppointments = appointments.filter((appointment) => {
-    const appointmentDate = new Date(appointment.start_time);
-    return activeTab1 === "upcoming"
-      ? appointmentDate >= now
-      : appointmentDate < now;
-  });
+  // Memoize filteredAppointments to avoid unnecessary recalculations
+  const filteredAppointments = useMemo(() => {
+    return appointments.filter((appointment) => {
+      const appointmentDate = new Date(appointment.start_time);
+      return activeTab1 === "upcoming"
+        ? appointmentDate >= now
+        : appointmentDate < now;
+    });
+  }, [appointments, activeTab1, now]);
 
-  useEffect(() => {
-    console.log("Effect A (reset page on tab change) is running");
-    setCurrentPage(1);
-  }, [activeTab1]);
-  
-  useEffect(() => {
-    console.log("Effect B (pagination) is running: currentPage =", currentPage);
+  // Memoize paginatedAppointments to avoid unnecessary recalculations
+  const paginatedAppointments = useMemo(() => {
     const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
     const endIndex = startIndex + ITEMS_PER_PAGE;
-    setPaginatedAppointments(filteredAppointments.slice(startIndex, endIndex));
+    return filteredAppointments.slice(startIndex, endIndex);
   }, [filteredAppointments, currentPage]);
+
+  // Reset page when tab changes or filtered results change
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [activeTab1, filteredAppointments.length]);
 
   const totalPages = Math.ceil(filteredAppointments.length / ITEMS_PER_PAGE);
 
+  // Rest of the component remains the same...
   if (isLoading) {
     return (
       <div className="flex items-center justify-center min-h-[400px]">
@@ -94,7 +94,6 @@ export default function AppointmentsList({
 
   return (
     <div className="space-y-8">
-      {/* Tabs for "Upcoming" vs "Past" */}
       <Tabs
         value={activeTab1}
         onValueChange={(value) => setActiveTab1(value as "upcoming" | "past")}
@@ -181,7 +180,6 @@ export default function AppointmentsList({
             );
           })}
 
-          {/* Pagination */}
           {totalPages > 1 && (
             <div className="mt-8 flex justify-center">
               <Pagination>

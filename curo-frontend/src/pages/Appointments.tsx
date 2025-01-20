@@ -93,8 +93,12 @@ export default function Appointments() {
         console.error("No logged-in user");
         return;
       }
+      if (!user || !user.email) {
+        console.error("No logged-in user or email");
+        return;
+      }
       const token = await user.getIdToken();
-      const response = await fetch('http://localhost:3000/api/appointments/book', {
+      const response = await fetch(`http://localhost:3000/api/appointments/book?email=${encodeURIComponent(user.email)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

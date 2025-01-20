@@ -9,9 +9,9 @@ import MedicinePricePage from "./pages/MedicinePrice";
 import NearbyServicesPage from "./pages/Findservices";
 import Appointments from "./pages/Appointments";
 import PremiumPredictor from "./pages/PremiumPredictor";
+import UserProfilePage from "./pages/UserProfile";
+
 function App() {
-
-
   return (
     <>
       <Router>
@@ -26,6 +26,7 @@ function App() {
           <Route path="/nearby-services/:uid" element={<NearbyServicesPage />} />
           <Route path="/appointments/:uid" element={<Appointments />} />
           <Route path="/premium-predictor/:uid" element={<PremiumPredictor />} />
+          <Route path="/user-profile/:uid" element={<UserProfilePage />} />
         </Routes>
       </Router>
 

@@ -30,6 +30,7 @@ interface Place {
     };
     types?: string[];
     photos?: Array<{
+        photo_reference: string;
         name: string;
         widthPx: number;
         heightPx: number;

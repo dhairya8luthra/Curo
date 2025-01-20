@@ -869,6 +869,75 @@ app.use('/api/appointments', appointmentRoutes);
 //Premium Predictor Routes
 app.use('/api/premium-predictor', premiumPredictorRoutes);
 
+app.get("/api/user-profile", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user; // Assume `authenticateUser` middleware adds `user` to `req`
+    const { data: user, error: userError } = await supabase
+      .from("users")
+      .select(" name, email, blood_group, allergies, heart_rate, blood_pressure, height, weight, date_of_birth")
+      .eq("uid", uid)
+      .single(); // Use .single() to get only one record if `uid` is unique
+ 
+    if (userError) {
+      console.error("Error fetching user:", userError);
+      return res.status(500).json({ error: "Failed to fetch user profile." });
+    }
+ 
+    if (!user) {
+      return res.status(404).json({ error: "User not found." });
+    }
+ 
+    return res.status(200).json({ user });
+  } catch (err) {
+    console.error("Error in /api/user-profile:", err);
+    return res.status(500).json({ error: "Internal Server Error." });
+  }
+});
+
+app.post("/api/update-profile", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user; // Extract the user's UID from the middleware
+    const {
+      blood_group,
+      allergies,
+      heart_rate,
+      blood_pressure,
+      height,
+      weight,
+      dob,
+    } = req.body; // Destructure the fields from the request body
+ 
+    // Update user profile in the database
+    const { data, error } = await supabase
+      .from("users")
+      .update({
+        blood_group,
+        allergies,
+        heart_rate,
+        blood_pressure,
+        height,
+        weight,
+        dob,
+      })
+      .eq("uid", uid);
+ 
+    if (error) {
+      console.error("Error updating user profile:", error);
+      return res.status(500).json({ error: "Failed to update profile." });
+    }
+ 
+    
+ 
+    return res.status(200).json({ message: "Profile updated successfully.", data });
+  } catch (err) {
+    console.error("Error in /api/update-profile:", err);
+    return res.status(500).json({ error: "Internal Server Error." });
+  }
+});
+ 
+
+ 
+
 // Protected route example
 app.get("/api/protected", authenticateUser, (req, res) => {
   res.json({ message: "This is a protected route", user: req.user });
