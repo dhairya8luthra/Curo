@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { MapPin } from "lucide-react";
+import { MapPin, Map as MapIcon } from "lucide-react";
 import { getAuth } from "firebase/auth";
 import { HospitalDetails } from "./HospitalDetails";
 
@@ -300,8 +300,18 @@ export default function DashboardMap() {
 
       <div
         ref={mapRef}
-        className="w-full h-[400px] rounded-lg mb-4 border border-gray-300"
-      />
+        className="w-full h-[400px] rounded-lg mb-4 border border-gray-300 relative"
+      >
+        {!userLatLng && (
+          <div className="absolute inset-0 flex flex-col items-center justify-center bg-gray-50">
+            <MapIcon className="w-16 h-16 text-gray-400 mb-4" />
+            <p className="text-lg text-gray-600 font-medium">No location selected</p>
+            <p className="text-sm text-gray-500 mt-2">
+              Click one of the buttons above to find healthcare services near you
+            </p>
+          </div>
+        )}
+      </div>
 
       <div className="space-y-2">
         {currentHospitals.map((hospital, i) => (
