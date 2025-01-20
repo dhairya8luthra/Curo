@@ -1,3 +1,4 @@
+import { useState ,useEffect} from 'react';
 import React from 'react';
 import { X, Image, MessageSquare, Star, MapPin } from 'lucide-react';
 
@@ -11,11 +12,84 @@ interface PlaceDetailsModalProps {
 
     setActiveTab: (tab: 'info' | 'photos' | 'reviews') => void;
 
-}
+
+  }
+  interface PlaceDetailsResponse {
+    name: string;
+    rating?: number;
+    userRatingCount?: number;
+    formattedAddress?: string;
+    websiteUri?: string;
+    reviews?: Array<{
+      authorAttribution: {
+        displayName: string;
+        uri?: string;
+        photoUri?: string;
+      };
+      rating: number;
+      text: { text: string };
+      relativePublishTimeDescription: string;
+    }>;
+    photos?: Array<{
+      name: string;
+      photo_reference: string;
+      widthPx: number;
+      heightPx: number;
+    }>;
+    // ...and so on for more fields...
+  }
 
 
 const PlaceDetailsModal: React.FC<{ place: Place; onClose: () => void; activeTab: 'info' | 'photos' | 'reviews'; setActiveTab: (tab: 'info' | 'photos' | 'reviews') => void}> = ({ place, onClose, activeTab, setActiveTab }) => {
   if (!place) return null;
+
+    const [placeDetails, setPlaceDetails] = useState<PlaceDetailsResponse | null>(null);
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState<string>("");
+    const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
+    useEffect(() => {
+      
+        fetchPlaceDetails(place.place_id);
+    
+      // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [place]);
+  const fetchPlaceDetails = async (placeId: string) => {
+    try {
+      setLoading(true);
+      setError("");
+
+      // Choose the fields you want (reviews, photos, displayName, etc.)
+      // For example:
+      const fields = [
+        "name",
+        "displayName",
+        "rating",
+        "userRatingCount",
+        "formattedAddress",
+        "reviews",
+        "photos",
+        "regularOpeningHours",
+      ].join(",");
+
+      // Construct the URL
+      const url = `https://places.googleapis.com/v1/places/${placeId}?fields=${fields}&key=${API_KEY}`;
+
+      const response = await fetch(url);
+
+      if (!response.ok) {
+        throw new Error(`Failed to fetch place details for ${placeId}`);
+      }
+
+      const data = await response.json();
+      console.log("place details:",data);    
+      setPlaceDetails(data);
+    } catch (err: any) {
+      console.error(err);
+      setError(err.message || "Error fetching place details.");
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
@@ -80,7 +154,14 @@ const PlaceDetailsModal: React.FC<{ place: Place; onClose: () => void; activeTab
             )}
             
             {activeTab === 'reviews' && (
-              <ReviewsList reviews={place.reviews || []} />
+              <ReviewsList reviews={
+                placeDetails?.reviews?.map((rev) => ({
+                author_name: rev.authorAttribution.displayName,
+                rating: rev.rating,
+                relative_time_description: rev.relativePublishTimeDescription,
+                text: rev.text.text,
+                profile_photo_url: rev.authorAttribution.photoUri || '',
+              })) || [] } />
             )}
           </div>
         </div>
@@ -102,6 +183,7 @@ const TabButton: React.FC<{ active: boolean; onClick: () => void; icon?: React.R
 );
 
 interface Place {
+  place_id:string,
   name: string;
   vicinity: string;
   rating?: number;
@@ -110,7 +192,7 @@ interface Place {
     open_now: boolean;
   };
   types?: string[];
-  photos?: { widthPx: number; heightPx: number }[];
+  photos?: { photo_reference:string;widthPx: number; heightPx: number }[];
   reviews?: {
     profile_photo_url: string;
     author_name: string;
@@ -152,7 +234,7 @@ const PhotosGrid: React.FC<{ photos: { widthPx: number; heightPx: number }[] }> 
     {photos.map((photo, index) => (
       <div key={index} className="aspect-square rounded-lg overflow-hidden">
         <img
-          src={`/api/placeholder/${photo.widthPx}/${photo.heightPx}`}
+          src={`https://maps.googleapis.com/maps/api/place/photo?maxwidth=400&photo_reference=${photo.photo_reference}&key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}`}
           alt={`Location ${index + 1}`}
           className="w-full h-full object-cover"
         />

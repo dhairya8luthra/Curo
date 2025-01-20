@@ -518,6 +518,7 @@ const FindServices = () => {
                         onClose={() => setSelectedPlace(null)}
                         activeTab={activeTab}
                         setActiveTab={setActiveTab}
+                        
                     />
                 )}
             </div>
