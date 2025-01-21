@@ -45,7 +45,7 @@ export default function AddRecordModal({ isOpen, onClose, onRecordAdded }: AddRe
         }
 
         const token = await user.getIdToken();
-        const response = await fetch("http://localhost:3000/api/health-records", {
+        const response = await fetch("https://curo-156q.onrender.com/api/health-records", {
             method: "POST",
             headers: {
               Authorization: `Bearer ${token}`,

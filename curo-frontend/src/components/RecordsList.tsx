@@ -72,7 +72,7 @@ export default function RecordsList({ records, setRecords }: RecordsListProps) {
     }
     try {
       const token = await user.getIdToken();
-      const response = await fetch(`http://localhost:3000/api/health-records/${recordId}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/health-records/${recordId}`, {
         method: 'DELETE',
         headers: {
           Authorization: `Bearer ${token}`,
@@ -105,7 +105,7 @@ export default function RecordsList({ records, setRecords }: RecordsListProps) {
 
     try {
       const token = await user.getIdToken();
-      const response = await fetch(`http://localhost:3000/api/health-records/${updatedRecord.id}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/health-records/${updatedRecord.id}`, {
         method: 'PUT',
         headers: {
           'Content-Type': 'application/json',

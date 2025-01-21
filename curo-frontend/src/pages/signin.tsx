@@ -48,7 +48,7 @@ export default function AuthPage() {
         const user = userCredential.user;
 
         // Send user data to your backend
-        await fetch('http://localhost:3000/api/auth/register', {
+        await fetch('https://curo-156q.onrender.com/api/auth/register', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
@@ -84,7 +84,7 @@ export default function AuthPage() {
       const user = result.user;
 
       // Send user data to your backend
-      await fetch('http://localhost:3000/api/auth/google', {
+      await fetch('https://curo-156q.onrender.com/api/auth/google', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

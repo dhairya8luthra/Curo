@@ -25,7 +25,7 @@ export default function UpcomingAppointments() {
         const token = await user.getIdToken();
 
         // 2) Call your backend route
-        const response = await fetch("http://localhost:3000/api/appointments/recent", {
+        const response = await fetch("https://curo-156q.onrender.com/api/appointments/recent", {
           headers: {
             // Pass the Firebase token in the Authorization header
             Authorization: `Bearer ${token}`

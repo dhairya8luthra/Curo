@@ -64,7 +64,7 @@ export default function DashboardMap() {
       }
  
       const token = await user.getIdToken();
-      const url = `http://localhost:3000/api/maps/nearby-hospitals?lat=${lat}&lng=${lng}&radius=${radius}`;
+      const url = `https://curo-156q.onrender.com/api/maps/nearby-hospitals?lat=${lat}&lng=${lng}&radius=${radius}`;
  
       const response = await fetch(url, {
         headers: {
@@ -99,7 +99,7 @@ export default function DashboardMap() {
       }
  
       const token = await user.getIdToken();
-      const url = `http://localhost:3000/api/maps/nearby-doctor?lat=${lat}&lng=${lng}&radius=${radius}`;
+      const url = `https://curo-156q.onrender.com/api/maps/nearby-doctor?lat=${lat}&lng=${lng}&radius=${radius}`;
  
       const response = await fetch(url, {
         headers: {
@@ -134,7 +134,7 @@ export default function DashboardMap() {
       }
  
       const token = await user.getIdToken();
-      const url = `http://localhost:3000/api/maps/nearby-pharmacy?lat=${lat}&lng=${lng}&radius=${radius}`;
+      const url = `https://curo-156q.onrender.com/api/maps/nearby-pharmacy?lat=${lat}&lng=${lng}&radius=${radius}`;
  
       const response = await fetch(url, {
         headers: {

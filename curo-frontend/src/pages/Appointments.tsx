@@ -72,7 +72,7 @@ export default function Appointments() {
         return;
       }
       const token = await user.getIdToken();
-      const response = await fetch('http://localhost:3000/api/appointments/providers', {
+      const response = await fetch('https://curo-156q.onrender.com/api/appointments/providers', {
         headers: {
           Authorization: `Bearer ${token}`,
         }
@@ -95,7 +95,7 @@ export default function Appointments() {
         return;
       }
       const token = await user.getIdToken();
-      const response = await fetch(`http://localhost:3000/api/appointments?email=${encodeURIComponent(user.email)}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/appointments?email=${encodeURIComponent(user.email)}`, {
         headers: {
           Authorization: `Bearer ${token}`,
         }
@@ -121,7 +121,7 @@ export default function Appointments() {
         return;
       }
       const token = await user.getIdToken();
-      const response = await fetch(`http://localhost:3000/api/appointments/book?email=${encodeURIComponent(user.email)}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/appointments/book?email=${encodeURIComponent(user.email)}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -154,7 +154,7 @@ export default function Appointments() {
         return;
       }
       const token = await user.getIdToken();
-      const response = await fetch(`http://localhost:3000/api/appointments/${appointmentData.id}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/appointments/${appointmentData.id}`, {
         method: 'PATCH',
         headers: {
           'Content-Type': 'application/json',

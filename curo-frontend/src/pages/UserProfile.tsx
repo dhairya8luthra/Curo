@@ -27,7 +27,7 @@ export default function UserProfile() {
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch("http://localhost:3000/api/user-profile", {
+      const response = await fetch("https://curo-156q.onrender.com/api/user-profile", {
         headers: {
           Authorization: `Bearer ${token}`,
         },
@@ -48,7 +48,7 @@ export default function UserProfile() {
     const user = auth.currentUser;
     if (user) {
       const token = await user.getIdToken();
-      const response = await fetch("http://localhost:3000/api/update-profile", {
+      const response = await fetch("https://curo-156q.onrender.com/api/update-profile", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

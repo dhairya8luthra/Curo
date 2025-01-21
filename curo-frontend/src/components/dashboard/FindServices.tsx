@@ -241,7 +241,7 @@ const FindServices = () => {
 
             const token = await user.getIdToken();
             const response = await fetch(
-                `http://localhost:3000/api/maps/nearby-${type}?lat=${lat}&lng=${lng}&radius=${radius}`,
+                `https://curo-156q.onrender.com/api/maps/nearby-${type}?lat=${lat}&lng=${lng}&radius=${radius}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,
@@ -277,7 +277,7 @@ const FindServices = () => {
 
             const token = await user.getIdToken();
             const response = await fetch(
-                `http://localhost:3000/api/maps/nearby-doctor-type?lat=${lat}&lng=${lng}&radius=${radius}&keyword=${keyword}`,
+                `https://curo-156q.onrender.com/api/maps/nearby-doctor-type?lat=${lat}&lng=${lng}&radius=${radius}&keyword=${keyword}`,
                 {
                     headers: {
                         Authorization: `Bearer ${token}`,

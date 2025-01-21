@@ -143,7 +143,22 @@ async function searchApollo(searchTerm) {
 
 const app = express();
 
-app.use(cors({ origin: "http://localhost:5173" }));
+const allowedOrigins = ['http://localhost:5173', 'https://curo-zusf-mh1v5d5tx-dhairya8luthras-projects.vercel.app/'];
+
+// CORS options
+const corsOptions = {
+  origin: function (origin, callback) {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);  // Allow the origin in the response
+    } else {
+      callback(new Error('Not allowed by CORS'));  // Disallow the origin
+    }
+  },
+  optionsSuccessStatus: 200  // Some legacy browsers (IE11, various SmartTVs) choke on 204
+};
+
+// Use cors middleware with options
+app.use(cors(corsOptions));
 app.use(express.json());
 
 // Middleware to verify Firebase token

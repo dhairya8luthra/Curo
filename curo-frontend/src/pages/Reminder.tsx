@@ -47,7 +47,7 @@ export default function MedicineReminderPage() {
     if (!authToken) return;
  
     try {
-      const res = await fetch("http://localhost:3000/api/medicine-reminder", {
+      const res = await fetch("https://curo-156q.onrender.com/api/medicine-reminder", {
         method: "GET",
         headers: {
           "Content-Type": "application/json",
@@ -96,7 +96,7 @@ export default function MedicineReminderPage() {
         if (currentToken) {
           console.log("FCM Token:", currentToken);
           // Send this token to your backend to store in Supabase
-          await fetch("http://localhost:3000/api/users/update-fcm-token", {
+          await fetch("https://curo-156q.onrender.com/api/users/update-fcm-token", {
             method: "PUT",
             headers: {
               "Content-Type": "application/json",
@@ -136,7 +136,7 @@ export default function MedicineReminderPage() {
       setMedicines((prev) => [...prev, tempMedicine]);
  
       // 3) POST to create the medicine in your backend
-      const res = await fetch("http://localhost:3000/api/medicine-reminder", {
+      const res = await fetch("https://curo-156q.onrender.com/api/medicine-reminder", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -178,7 +178,7 @@ export default function MedicineReminderPage() {
         )
       );
  
-      const res = await fetch(`http://localhost:3000/api/medicine-reminder/${id}`, {
+      const res = await fetch(`https://curo-156q.onrender.com/api/medicine-reminder/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -212,7 +212,7 @@ export default function MedicineReminderPage() {
       // Optimistic removal
       setMedicines((prev) => prev.filter((medicine) => medicine.id !== id));
  
-      const res = await fetch(`http://localhost:3000/api/medicine-reminder/${id}`, {
+      const res = await fetch(`https://curo-156q.onrender.com/api/medicine-reminder/${id}`, {
         method: "DELETE",
         headers: {
           Authorization: `Bearer ${authToken}`,

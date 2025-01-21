@@ -47,7 +47,7 @@ export default function Dashboard() {
         }
 
         const token = await user.getIdToken();
-        const response = await fetch("http://localhost:3000/api/appointments/recent", {
+        const response = await fetch("https://curo-156q.onrender.com/api/appointments/recent", {
           headers: { Authorization: `Bearer ${token}` }
         });
 
@@ -88,7 +88,7 @@ export default function Dashboard() {
         throw new Error("No token provided");
       }
 
-      const response = await fetch("http://localhost:3000/api/fetch-user", {
+      const response = await fetch("https://curo-156q.onrender.com/api/fetch-user", {
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${token}`,

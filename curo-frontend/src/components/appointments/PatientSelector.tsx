@@ -37,7 +37,7 @@ export default function PatientSelector({ onPatientSelected, providerid }: Patie
       const token = await user.getIdToken();
       console.log('Got auth token');
 
-      const checkUrl = `http://localhost:3000/api/appointments/patients/check?email=${encodeURIComponent(user.email)}`;
+      const checkUrl = `https://curo-156q.onrender.com/api/appointments/patients/check?email=${encodeURIComponent(user.email)}`;
       console.log('Checking URL:', checkUrl);
 
       const response = await fetch(checkUrl, {
@@ -92,7 +92,7 @@ export default function PatientSelector({ onPatientSelected, providerid }: Patie
       const token = await user.getIdToken();
       console.log('Creating patient with provider ID:', providerid);
 
-      const response = await fetch(`http://localhost:3000/api/appointments/patients?providerid=${providerid}`, {
+      const response = await fetch(`https://curo-156q.onrender.com/api/appointments/patients?providerid=${providerid}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',

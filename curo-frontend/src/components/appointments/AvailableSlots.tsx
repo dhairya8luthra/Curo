@@ -33,7 +33,7 @@ export default function AvailableSlots({ providerId, startDate, onSelectSlot }: 
           return;
         }
         const token = await user.getIdToken();
-        const response = await fetch(`http://localhost:3000/api/appointments/slots?startDate=${startDate}&days=7&providerId=${providerId}`, {
+        const response = await fetch(`https://curo-156q.onrender.com/api/appointments/slots?startDate=${startDate}&days=7&providerId=${providerId}`, {
           headers: {
             Authorization: `Bearer ${token}`,
           }

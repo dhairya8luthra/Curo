@@ -25,7 +25,7 @@ export default function CustomCalendar() {
 
     const fetchAppointments = async () => {
         console.log(uid); // Replace with the actual user ID
-        const url = `http://localhost:3000/api/appointments-fetch?user_id=${uid}`;
+        const url = `https://curo-156q.onrender.com/api/appointments-fetch?user_id=${uid}`;
 
         try {
             console.log("Fetching appointments from the API...");
@@ -85,7 +85,7 @@ export default function CustomCalendar() {
         console.log("Saving new appointment:", newAppointment);
 
         try {
-            const response = await fetch("http://localhost:3000/api/appointments-save", {
+            const response = await fetch("https://curo-156q.onrender.com/api/appointments-save", {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
