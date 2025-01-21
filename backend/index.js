@@ -143,7 +143,7 @@ async function searchApollo(searchTerm) {
 
 const app = express();
 
-const allowedOrigins = ['http://localhost:5173', 'https://curo-flame.vercel.app/'];
+const allowedOrigins = ['http://localhost:5173', 'https://curo-flame.vercel.app'];
 
 // CORS options
 const corsOptions = {
