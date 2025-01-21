@@ -3,7 +3,7 @@ import { readFile } from 'fs/promises';
 
 async function initializeFirebaseAdmin() {
     try {
-        const data = await readFile('./backend/serviceAccountKey.json', { encoding: 'utf8' });
+        const data = await readFile('./serviceAccountKey.json', { encoding: 'utf8' });
         const serviceAccount = JSON.parse(data);
 
         admin.initializeApp({
