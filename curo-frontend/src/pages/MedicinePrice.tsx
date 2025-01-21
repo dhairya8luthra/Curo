@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
-import { useParams } from "react-router-dom";
 import SearchBar from "../components/ui/SearchBar";
 import ResultsGrid from "../components/ui/ResultsGrid";
 import { AlertCircle, Pill, Search, ShoppingBag } from 'lucide-react';
@@ -11,7 +10,6 @@ export default function MedicinePricePage() {
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [results, setResults] = useState(null);
-    const { uid } = useParams();
  
     const handleSearch = async (query: string) => {
         setIsLoading(true);

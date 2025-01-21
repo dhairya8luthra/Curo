@@ -1,4 +1,4 @@
-import React from "react";
+
 import { MapPin, FileText, Calendar, Settings, LogOut, Activity, MessageSquare, AlarmClock, PillBottle, BadgePercentIcon } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { toast } from "react-hot-toast";

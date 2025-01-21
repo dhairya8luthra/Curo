@@ -1,12 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
 import DashboardMap from "../components/dashboard/DashboardMap";
 import UpcomingAppointments from "../components/dashboard/UpcomingAppointments";
 import HealthMetrics from "../components/dashboard/HealthMetrics";
-import RecentRecords from "../components/dashboard/RecentRecords";
-import { useParams } from "react-router-dom";
-import { Bell, Search, User, Clock, Activity, Heart } from "lucide-react";
+import { Bell, Search, User, Clock, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getAuth } from "firebase/auth";
@@ -23,10 +21,7 @@ interface HealthMetricsProps {
 
 export default function Dashboard() {
  const [activeTab, setActiveTab] = useState("overview");
-  const { uid } = useParams();
   const [nextAppointment, setNextAppointment] = useState({ date: "", time: "" });
-  const [isLoading, setIsLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showOverlay, setShowOverlay] = useState(false);
@@ -42,14 +37,12 @@ export default function Dashboard() {
   const handleProfileSelect = () => setShowOverlay((prev) => !prev);
   useEffect(() => {
     const fetchRecentAppointments = async () => {
-      setIsLoading(true);
-      setError(null);
+     
       try {
         const auth = getAuth();
         const user = auth.currentUser;
         if (!user) {
-          setError("No authenticated user found");
-          setIsLoading(false);
+         
           return;
         }
 
@@ -70,10 +63,9 @@ export default function Dashboard() {
             time: format(new Date(nextAppt.start_time), "h:mm a")
           });
         }
-        setIsLoading(false);
+     
       } catch (err) {
-        setError( "Error fetching appointments");
-        setIsLoading(false);
+      
       }
     };
 
@@ -90,6 +82,7 @@ export default function Dashboard() {
         return;
       }
       const token = await currentUser.getIdToken();
+      console.log(token);
 
       if (!token) {
         throw new Error("No token provided");

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
@@ -72,7 +72,7 @@ export default function UserProfile() {
     fetchUserData();
   }, []);
 
-  const getFieldIcon = (key) => {
+  const getFieldIcon = (key: keyof typeof userData) => {
     const icons = {
       name: <User className="w-5 h-5 text-blue-500" />,
       email: <Settings className="w-5 h-5 text-purple-500" />,
@@ -107,14 +107,14 @@ export default function UserProfile() {
               {Object.keys(userData).map((key) => (
                 <div key={key} className="relative group">
                   <div className="flex items-center space-x-2 mb-1.5">
-                    {getFieldIcon(key)}
+                    {getFieldIcon(key as keyof typeof userData)}
                     <label className="block text-sm font-medium text-gray-700 capitalize">
                       {key.replace(/([A-Z])/g, " $1")}
                     </label>
                   </div>
                   <Input
                     type={key === "dob" ? "date" : "text"}
-                    value={userData[key]}
+                    value={userData[key as keyof typeof userData]}
                     disabled={!isEditing}
                     className={`mt-1 transition-all duration-200 ${
                       isEditing

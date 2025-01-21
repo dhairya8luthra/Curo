@@ -1,16 +1,14 @@
 import { useState, type ChangeEvent, type FormEvent } from 'react';
-import { useParams } from 'react-router-dom';
 import { getAuth } from 'firebase/auth';
 
 import Sidebar from '../components/ui/Layout/SideBar';
-import { Card, CardContent, CardDescription, CardHeader, CardTitle, CardFooter } from '@/components/ui/card';
+import { Card, CardContent, CardDescription, CardHeader, CardFooter } from '@/components/ui/card';
 import { Input } from '@/components/ui/input';
 import { Button } from '@/components/ui/button';
 import { Label } from '@/components/ui/label';
 import { Separator } from '@/components/ui/separator';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
 import { AlertCircle, HeartPulse, Loader2, Info, Calculator, ArrowRight, RefreshCw } from 'lucide-react';
-import { cn } from '@/lib/utils';
 import { Switch } from '@/components/ui/switch';
 import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '@/components/ui/tooltip';
 import { Progress } from '@/components/ui/progress';
@@ -56,7 +54,6 @@ const formFields = [
 
 export default function PremiumPredictor() {
   const [activeTab, setActiveTab] = useState("Insurance Premium Predictor");
-  const { uid } = useParams();
   const [formProgress, setFormProgress] = useState(0);
 
   const [formData, setFormData] = useState<FormData>(initialFormData);
@@ -97,7 +94,7 @@ export default function PremiumPredictor() {
     setError(null);
     setPrediction(null);
 
-    const features: number[] = Object.entries(formData).map(([key, value]) => {
+    const features: number[] = Object.entries(formData).map(([, value]) => {
       if (typeof value === 'boolean') {
         return value ? 1 : 0;
       }

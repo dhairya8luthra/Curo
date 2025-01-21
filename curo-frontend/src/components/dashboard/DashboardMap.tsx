@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect } from "react";
 import { MapPin, Map as MapIcon } from "lucide-react";
 import { getAuth } from "firebase/auth";
 import { HospitalDetails } from "./HospitalDetails";

@@ -1,14 +1,13 @@
 import React from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
-import { useParams } from "react-router-dom";
 import FindServices from "@/components/dashboard/FindServices";
  
 export default function NearbyServicesPage() {
     const [activeTab, setActiveTab] = React.useState("hospitals");
-    const { uid } = useParams();
+    
  
-    const sessionUser = sessionStorage.getItem("authUser");
-    const user = sessionUser ? JSON.parse(sessionUser) : null;
+    
+    
  
     return (
         <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 to-white">

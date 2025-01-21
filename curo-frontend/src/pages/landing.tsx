@@ -1,9 +1,5 @@
 import React from 'react'
 import {
-  MapPin,
-  UserPlus,
-  FileText,
-  Calendar,
   CalendarIcon,
   ChevronRight,
   Menu,
@@ -16,12 +12,12 @@ import {
   FileCheck
 } from 'lucide-react'
 import { Button } from "@/components/ui/button"
-import { useNavigate, Link } from "react-router-dom"
+import { Link } from "react-router-dom"
 import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion"
 
 export default function CuroLandingPage() {
   const [isMenuOpen, setIsMenuOpen] = React.useState(false)
-  const navigate = useNavigate();
+ 
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0, 0.2], [1, 0]);
   const scale = useTransform(scrollYProgress, [0, 0.2], [1, 0.95]);
@@ -158,36 +154,42 @@ export default function CuroLandingPage() {
           <span className="text-2xl font-bold text-blue-800">Curo</span>
         </motion.div>
         <nav className="hidden md:block">
-          <motion.ul 
-            className="flex space-x-6"
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            <motion.li variants={itemVariants}>
-              <Button 
-                variant="ghost" 
-                onClick={handleScrollToFeatures} 
-                className="bg-transparent text-gray-600 hover:text-blue-500 hover:bg-transparent shadow-none"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                Features
-              </Button>
-            </motion.li>
-            <motion.li variants={itemVariants}>
-              <Button 
-                variant="ghost" 
-                onClick={handleAboutUs} 
-                className="bg-transparent text-gray-600 hover:text-blue-500 hover:bg-transparent shadow-none"
-                whileHover={{ scale: 1.05 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                About Us
-              </Button>
-            </motion.li>
-          </motion.ul>
-        </nav>
+  <motion.ul 
+    className="flex space-x-6 items-center"
+    variants={containerVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    <motion.li variants={itemVariants}>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Button 
+          variant="ghost" 
+          onClick={handleScrollToFeatures} 
+          className="bg-transparent text-gray-600 hover:text-blue-500 hover:bg-transparent shadow-none"
+        >
+          Features
+        </Button>
+      </motion.div>
+    </motion.li>
+    <motion.li variants={itemVariants}>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <Button 
+          variant="ghost" 
+          onClick={handleAboutUs} 
+          className="bg-transparent text-gray-600 hover:text-blue-500 hover:bg-transparent shadow-none"
+        >
+          About Us
+        </Button>
+      </motion.div>
+    </motion.li>
+  </motion.ul>
+</nav>
         <motion.div 
           className="md:hidden"
           whileHover={{ scale: 1.1 }}

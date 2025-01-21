@@ -1,6 +1,5 @@
 import React, { useState } from 'react';
 import { format } from 'date-fns';
-import { Calendar } from 'lucide-react';
 import { Button } from '../ui/button';
 import { Input } from '../ui/input';
 import AvailableSlots from './AvailableSlots';

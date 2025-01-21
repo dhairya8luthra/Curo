@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from "react";
-import { Calendar, Clock, User } from "lucide-react";
+import { useState, useEffect } from "react";
+import { Calendar, Clock } from "lucide-react";
 import { getAuth } from "firebase/auth";
 import { format } from "date-fns";
 

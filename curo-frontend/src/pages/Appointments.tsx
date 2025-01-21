@@ -1,6 +1,6 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect } from "react";
 import { getAuth } from "firebase/auth";
-import { Bell, Search, User, Plus, Calendar } from 'lucide-react';
+import { Bell,  User, Plus } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import Sidebar from '../components/ui/Layout/SideBar';
 import AppointmentForm from '../components/appointments/AppointmentForm';

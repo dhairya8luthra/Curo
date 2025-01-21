@@ -1,6 +1,5 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
-import { useParams } from "react-router-dom";
 import { MedicineCard } from "@/components/MedicineReminder/MedicineCard";
 import { AddMedicineDialog } from "@/components/MedicineReminder/AddMedicineDialog";
 import { Bell } from "lucide-react";
@@ -14,7 +13,7 @@ import { getToken } from "firebase/messaging";
  
 export default function MedicineReminderPage() {
   const [activeTab, setActiveTab] = useState("Medicine Reminder");
-  const { uid } = useParams();
+  
  
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);

@@ -1,7 +1,7 @@
-import React, { useState, useRef, useEffect } from "react";
+import  { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
-import { useParams } from "react-router-dom";
+
 import { Bell, Search, User, Plus } from 'lucide-react';
 import { Button } from "@/components/ui/button";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/ui/card";
@@ -20,7 +20,6 @@ export default function HealthRecord() {
   const [activeTab, setActiveTab] = useState("records");
   const [records, setRecords] = useState<Record[]>([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const { uid } = useParams();
  
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser ? JSON.parse(sessionUser) : null;
