@@ -5,14 +5,14 @@ import SearchBar from "../components/ui/SearchBar";
 import ResultsGrid from "../components/ui/ResultsGrid";
 import { AlertCircle, Pill, Search, ShoppingBag } from 'lucide-react';
 import { getAuth } from "firebase/auth";
-
+ 
 export default function MedicinePricePage() {
     const [activeTab, setActiveTab] = React.useState("Compare Medicine Prices");
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
     const [results, setResults] = useState(null);
     const { uid } = useParams();
-
+ 
     const handleSearch = async (query: string) => {
         setIsLoading(true);
         setError(null);
@@ -23,7 +23,7 @@ export default function MedicinePricePage() {
             setIsLoading(false);
             return;
         }
-
+ 
         try {
             const token = await user.getIdToken();
             const response = await fetch(
@@ -35,11 +35,11 @@ export default function MedicinePricePage() {
                 }
             );
             const data = await response.json();
-
+ 
             if (!data.success) {
                 throw new Error(data.error || 'Failed to fetch results');
             }
-
+ 
             setResults(data.data);
         } catch (err) {
             setError(err instanceof Error ? err.message : 'An error occurred while fetching results');
@@ -47,7 +47,7 @@ export default function MedicinePricePage() {
             setIsLoading(false);
         }
     };
-
+ 
     return (
         <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
             <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -64,10 +64,10 @@ export default function MedicinePricePage() {
                                 <p className="text-gray-600 mt-1">Find the best prices across multiple pharmacies</p>
                             </div>
                         </div>
-
+ 
                         <SearchBar onSearch={handleSearch} isLoading={isLoading} />
                     </div>
-
+ 
                     {/* Error Message */}
                     {error && (
                         <div className="bg-red-50 border border-red-100 rounded-xl p-4 flex items-center text-red-700 animate-fade-in">
@@ -75,7 +75,7 @@ export default function MedicinePricePage() {
                             <p className="text-sm font-medium">{error}</p>
                         </div>
                     )}
-
+ 
                     {/* Loading State */}
                     {isLoading && (
                         <div className="flex flex-col items-center justify-center py-16 space-y-4">
@@ -90,7 +90,7 @@ export default function MedicinePricePage() {
                             </div>
                         </div>
                     )}
-
+ 
                     {/* Results */}
                     {results && !isLoading && (
                         <div className="space-y-6">
@@ -104,7 +104,7 @@ export default function MedicinePricePage() {
                             <ResultsGrid results={results} />
                         </div>
                     )}
-
+ 
                     {/* Empty State */}
                     {!results && !isLoading && !error && (
                         <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-12 text-center">

@@ -178,22 +178,21 @@ export default function Dashboard() {
             <Button
               variant="ghost"
               size="icon"
-              className="text-gray-600 hover:text-blue-500 hover:bg-blue-50"
+              className="bg-blue-500 !text-white hover:bg-blue-600"
             >
               <Bell className="h-5 w-5" />
             </Button>
-
+ 
             {/* User Icon */}
             <Button
               ref={buttonRef}
               variant="ghost"
               size="icon"
-              className="text-gray-600 hover:text-blue-500 hover:bg-blue-50"
+              className="bg-blue-500 !text-white hover:bg-blue-600"
               onClick={handleProfileSelect}
             >
               <User className="h-5 w-5" />
             </Button>
-
             {/* Overlay */}
             {showOverlay && (
               <div

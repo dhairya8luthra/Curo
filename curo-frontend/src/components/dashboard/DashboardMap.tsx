@@ -2,14 +2,14 @@ import React, { useState, useRef, useEffect } from "react";
 import { MapPin, Map as MapIcon } from "lucide-react";
 import { getAuth } from "firebase/auth";
 import { HospitalDetails } from "./HospitalDetails";
-
+ 
 // Declare the google property on the window object
 declare global {
   interface Window {
     google: any;
   }
 }
-
+ 
 interface Hospital {
   place_id: string;
   name: string;
@@ -27,9 +27,9 @@ interface Hospital {
   };
   types?: string[];
 }
-
+ 
 const ITEMS_PER_PAGE = 5;
-
+ 
 export default function DashboardMap() {
   const [hospitals, setHospitals] = useState<Hospital[]>([]);
   const [radius, setRadius] = useState(5000);
@@ -38,34 +38,34 @@ export default function DashboardMap() {
   const [userLatLng, setUserLatLng] = useState<{ lat: number; lng: number } | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const [selectedHospital, setSelectedHospital] = useState<Hospital | null>(null);
-
+ 
   // Reference to the map DOM node
   const mapRef = useRef<HTMLDivElement>(null);
   // Store the Google Map instance
   const [map, setMap] = useState<google.maps.Map | null>(null);
   // Keep track of markers so we can clear them when we fetch new data
   const markersRef = useRef<google.maps.Marker[]>([]);
-
+ 
   // Calculate pagination values
   const totalPages = Math.ceil(hospitals.length / ITEMS_PER_PAGE);
   const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
   const endIndex = startIndex + ITEMS_PER_PAGE;
   const currentHospitals = hospitals.slice(startIndex, endIndex);
-
+ 
   const fetchHospitals = async (lat: number, lng: number) => {
     setLoading(true);
     setError("");
-
+ 
     try {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
         throw new Error("No logged-in user. Please sign in first.");
       }
-
+ 
       const token = await user.getIdToken();
       const url = `http://localhost:3000/api/maps/nearby-hospitals?lat=${lat}&lng=${lng}&radius=${radius}`;
-
+ 
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -75,7 +75,7 @@ export default function DashboardMap() {
       if (!response.ok) {
         throw new Error("Failed to fetch nearby hospitals");
       }
-
+ 
       const data = await response.json();
       setHospitals(data.results || []);
       setCurrentPage(1); // Reset to first page when new data is loaded
@@ -86,21 +86,21 @@ export default function DashboardMap() {
       setLoading(false);
     }
   };
-
+ 
   const fetchDoctors = async (lat: number, lng: number) => {
     setLoading(true);
     setError("");
-
+ 
     try {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
         throw new Error("No logged-in user. Please sign in first.");
       }
-
+ 
       const token = await user.getIdToken();
       const url = `http://localhost:3000/api/maps/nearby-doctor?lat=${lat}&lng=${lng}&radius=${radius}`;
-
+ 
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -110,7 +110,7 @@ export default function DashboardMap() {
       if (!response.ok) {
         throw new Error("Failed to fetch nearby doctor");
       }
-
+ 
       const data = await response.json();
       setHospitals(data.results || []);
       setCurrentPage(1); // Reset to first page when new data is loaded
@@ -121,21 +121,21 @@ export default function DashboardMap() {
       setLoading(false);
     }
   };
-
+ 
   const fetchPharmacy = async (lat: number, lng: number) => {
     setLoading(true);
     setError("");
-
+ 
     try {
       const auth = getAuth();
       const user = auth.currentUser;
       if (!user) {
         throw new Error("No logged-in user. Please sign in first.");
       }
-
+ 
       const token = await user.getIdToken();
       const url = `http://localhost:3000/api/maps/nearby-pharmacy?lat=${lat}&lng=${lng}&radius=${radius}`;
-
+ 
       const response = await fetch(url, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -145,7 +145,7 @@ export default function DashboardMap() {
       if (!response.ok) {
         throw new Error("Failed to fetch nearby pharmacy");
       }
-
+ 
       const data = await response.json();
       setHospitals(data.results || []);
       setCurrentPage(1); // Reset to first page when new data is loaded
@@ -156,7 +156,7 @@ export default function DashboardMap() {
       setLoading(false);
     }
   };
-
+ 
   const handleFindHospitals = () => {
     if (!navigator.geolocation) {
       setError("Geolocation is not supported by your browser.");
@@ -211,7 +211,7 @@ export default function DashboardMap() {
       }
     );
   };
-
+ 
   useEffect(() => {
     if (userLatLng && mapRef.current && !map) {
       const newMap = new window.google.maps.Map(mapRef.current, {
@@ -219,7 +219,7 @@ export default function DashboardMap() {
         zoom: 13,
       });
       setMap(newMap);
-
+ 
       new window.google.maps.Marker({
         position: userLatLng,
         map: newMap,
@@ -230,13 +230,13 @@ export default function DashboardMap() {
       });
     }
   }, [userLatLng, map]);
-
+ 
   useEffect(() => {
     if (!map) return;
-
+ 
     markersRef.current.forEach((marker) => marker.setMap(null));
     markersRef.current = [];
-
+ 
     hospitals.forEach((h) => {
       if (!h.geometry?.location) return;
       const marker = new window.google.maps.Marker({
@@ -248,7 +248,7 @@ export default function DashboardMap() {
         title: h.name,
       });
       markersRef.current.push(marker);
-
+ 
       const infoWindow = new window.google.maps.InfoWindow({
         content: `<div><strong>${h.name}</strong><br/>${h.vicinity}</div>`,
       });
@@ -257,23 +257,23 @@ export default function DashboardMap() {
       });
     });
   }, [hospitals, map]);
-
+ 
   return (
     <div className="p-6">
       <div className="flex justify-between items-center mb-4">
-        <h2 className="text-lg font-semibold">Nearby Healthcare Services</h2>
+        <h2 className="text-lg font-semibold text-white">Nearby Healthcare Services</h2>
         <select
-          className="border rounded-md p-2"
+          className="bg-blue-500 text-white border border-blue-400 rounded-md p-2 hover:bg-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
           value={radius}
           onChange={(e) => setRadius(Number(e.target.value))}
         >
-          <option value={2000}>Within 2km</option>
-          <option value={5000}>Within 5km</option>
-          <option value={10000}>Within 10km</option>
-          <option value={20000}>Within 20km</option>
+          <option value={2000} className="bg-blue-500">Within 2km</option>
+          <option value={5000} className="bg-blue-500">Within 5km</option>
+          <option value={10000} className="bg-blue-500">Within 10km</option>
+          <option value={20000} className="bg-blue-500">Within 20km</option>
         </select>
       </div>
-
+ 
       <div className="flex justify-center items-center space-x-2 mb-4">
         <button
           onClick={handleFindHospitals}
@@ -294,10 +294,10 @@ export default function DashboardMap() {
           Find Pharmacy
         </button>
       </div>
-
+ 
       {loading && <p>Loading services...</p>}
       {error && <p className="text-red-500">{error}</p>}
-
+ 
       <div
         ref={mapRef}
         className="w-full h-[400px] rounded-lg mb-4 border border-gray-300 relative"
@@ -312,7 +312,7 @@ export default function DashboardMap() {
           </div>
         )}
       </div>
-
+ 
       <div className="space-y-2">
         {currentHospitals.map((hospital, i) => (
           <div
@@ -344,7 +344,7 @@ export default function DashboardMap() {
           </div>
         ))}
       </div>
-
+ 
       {/* Pagination */}
       {totalPages > 1 && (
         <div className="flex justify-center items-center space-x-2 mt-4">
@@ -367,7 +367,7 @@ export default function DashboardMap() {
           </button>
         </div>
       )}
-
+ 
       {/* Hospital Details Modal */}
       {selectedHospital && (
         <HospitalDetails

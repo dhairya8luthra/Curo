@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useRef, useEffect } from "react";
 import { getAuth } from "firebase/auth";
 import { Bell, Search, User, Plus, Calendar } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -7,19 +7,19 @@ import AppointmentForm from '../components/appointments/AppointmentForm';
 import DoctorsList from '@/components/appointments/DoctorsList';
 import AppointmentsList from '@/components/appointments/AppointmentsList';
 import { useLocation } from 'react-router-dom';
-
+ 
 interface LocalAppointment {
   id: number;
   provider: { name: string };
   date: string;
   time: string;
 }
-
+ 
 interface Doctor {
   id: number;
   name: string;
 }
-
+ 
 export default function Appointments() {
   const [activeTab, setActiveTab] = useState("appointments");
   const [view, setView] = useState<'list' | 'book' | 'edit'>('list');
@@ -29,17 +29,40 @@ export default function Appointments() {
   const [selectedAppointment, setSelectedAppointment] = useState<LocalAppointment | null>(null);
   const [isLoading, setIsLoading] = useState(true);
   const location = useLocation();
-
+ 
   const sessionUser = sessionStorage.getItem('authUser');
   const user = sessionUser ? JSON.parse(sessionUser) : null;
-
-  // Reset state when location changes
+ 
+ 
+  const buttonRef = useRef<HTMLButtonElement>(null);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const [showOverlay, setShowOverlay] = useState(false);
+  const handleProfileSelect = () => setShowOverlay((prev) => !prev);
+ 
+ 
+  const handleClickOutside = (event: MouseEvent) => {
+    if (
+      overlayRef.current &&
+      !overlayRef.current.contains(event.target as Node) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target as Node)
+    ) {
+      setShowOverlay(false);
+    }
+  };
+ 
   useEffect(() => {
-      fetchDoctors();
-      fetchAppointments();
-    
-  }, [location.pathname]); 
-
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+  // Reset state when location changes
+ 
+  useEffect(() => {
+    fetchDoctors();
+    fetchAppointments();
+ 
+  }, [location.pathname]);
+ 
   const fetchDoctors = async () => {
     try {
       const auth = getAuth();
@@ -62,7 +85,7 @@ export default function Appointments() {
       setIsLoading(false);
     }
   };
-
+ 
   const fetchAppointments = async () => {
     try {
       const auth = getAuth();
@@ -83,7 +106,7 @@ export default function Appointments() {
       console.error('Failed to fetch appointments:', error);
     }
   };
-
+ 
   const handleBookAppointment = async (appointmentData: any) => {
     try {
       setIsLoading(true);
@@ -106,9 +129,9 @@ export default function Appointments() {
         },
         body: JSON.stringify(appointmentData),
       });
-
+ 
       const data = await response.json();
-      
+ 
       if (response.ok) {
         await fetchAppointments();
         setView('list');
@@ -121,7 +144,7 @@ export default function Appointments() {
       setIsLoading(false);
     }
   };
-
+ 
   const handleEditAppointment = async (appointmentData: any) => {
     try {
       const auth = getAuth();
@@ -139,7 +162,7 @@ export default function Appointments() {
         },
         body: JSON.stringify(appointmentData),
       });
-
+ 
       if (response.ok) {
         setView('list');
         fetchAppointments();
@@ -148,11 +171,11 @@ export default function Appointments() {
       console.error('Error updating appointment:', error);
     }
   };
-
+ 
   return (
     <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
-
+ 
       <main className="flex-1 overflow-auto">
         <header className="sticky top-0 z-10 bg-white border-b shadow-sm p-4">
           <div className="max-w-7xl mx-auto flex justify-between items-center">
@@ -164,75 +187,89 @@ export default function Appointments() {
                 </p>
               )}
             </div>
-
+ 
             <div className="flex items-center space-x-4">
               <Button
                 variant="ghost"
                 size="icon"
-                className="text-gray-600 hover:text-blue-500 transition-colors duration-200"
+                className="bg-blue-500 !text-white hover:bg-blue-600"
               >
                 <Bell className="h-5 w-5" />
               </Button>
+ 
+              {/* User Icon */}
               <Button
+                ref={buttonRef}
                 variant="ghost"
                 size="icon"
-                className="text-gray-600 hover:text-blue-500 transition-colors duration-200"
+                className="bg-blue-500 !text-white hover:bg-blue-600"
+                onClick={handleProfileSelect}
               >
                 <User className="h-5 w-5" />
               </Button>
             </div>
-          </div>
-        </header>
-
-        <div className="max-w-7xl mx-auto p-6">
-          {view === 'list' ? (
-            <>
-              <div className="flex justify-between items-center mb-8">
-                <Button
-                  onClick={() => setView('book')}
-                  className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
-                >
-                  <Plus className="mr-2 h-4 w-4" /> Book Appointment
-                </Button>
+            {/* Overlay */}
+            {showOverlay && (
+              <div
+                ref={overlayRef}
+                className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-300 shadow-lg rounded-md p-4 z-10"
+              >
+                <p className="text-gray-700 font-medium">Name: {user.name}</p>
+                <p className="text-gray-700 font-medium">Email: {user.email}</p>
               </div>
-
-              <AppointmentsList
-                appointments={appointments}
-                isLoading={isLoading}
-              />
-            </>
-          ) : view === 'book' ? (
-            selectedDoctor ? (
-              <AppointmentForm
-                selectedDoctor={selectedDoctor}
-                onSubmit={handleBookAppointment}
-                onBack={() => {
-                  setSelectedDoctor(null);
-                  setView('list');
-                }}
-                isSubmitting={isLoading}
-              />
-            ) : (
-              <DoctorsList
-                doctors={doctors}
-                onSelectDoctor={(doctor) => setSelectedDoctor(doctor)}
-                isLoading={isLoading}
-              />
-            )
-          ) : (
+            )}
+          </div>
+      </header>
+ 
+      <div className="max-w-7xl mx-auto p-6">
+        {view === 'list' ? (
+          <>
+            <div className="flex justify-between items-center mb-8">
+              <Button
+                onClick={() => setView('book')}
+                className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg shadow-md transition-all duration-200 transform hover:scale-105"
+              >
+                <Plus className="mr-2 h-4 w-4" /> Book Appointment
+              </Button>
+            </div>
+ 
+            <AppointmentsList
+              appointments={appointments}
+              isLoading={isLoading}
+            />
+          </>
+        ) : view === 'book' ? (
+          selectedDoctor ? (
             <AppointmentForm
-              selectedDoctor={selectedAppointment ? selectedAppointment.provider : null}
-              onSubmit={handleEditAppointment}
+              selectedDoctor={selectedDoctor}
+              onSubmit={handleBookAppointment}
               onBack={() => {
-                setSelectedAppointment(null);
+                setSelectedDoctor(null);
                 setView('list');
               }}
-              isEditing
-              appointmentData={selectedAppointment}
+              isSubmitting={isLoading}
             />
-          )}
-        </div>
-      </main>
-    </div>
+          ) : (
+            <DoctorsList
+              doctors={doctors}
+              onSelectDoctor={(doctor) => setSelectedDoctor(doctor)}
+              isLoading={isLoading}
+            />
+          )
+        ) : (
+          <AppointmentForm
+            selectedDoctor={selectedAppointment ? selectedAppointment.provider : null}
+            onSubmit={handleEditAppointment}
+            onBack={() => {
+              setSelectedAppointment(null);
+              setView('list');
+            }}
+            isEditing
+            appointmentData={selectedAppointment}
+          />
+        )}
+      </div>
+    </main>
+    </div >
   );
 }

@@ -7,19 +7,19 @@ import { Bell } from "lucide-react";
 import type { Medicine } from "../types/Medicine";
 import { EditMedicineDialog } from "@/components/MedicineReminder/EditMedicineDialog";
 import { getAuth } from "firebase/auth";
-
+ 
 // 1) Import the Firebase objects needed for Cloud Messaging
 import { messaging } from "@/lib/firebase"; // from your firebase.ts
 import { getToken } from "firebase/messaging";
-
+ 
 export default function MedicineReminderPage() {
   const [activeTab, setActiveTab] = useState("Medicine Reminder");
   const { uid } = useParams();
-
+ 
   const [medicines, setMedicines] = useState<Medicine[]>([]);
   const [editingMedicine, setEditingMedicine] = useState<Medicine | null>(null);
   const [authToken, setAuthToken] = useState<string>("");
-
+ 
   /**
    * On mount, get the current user's Firebase ID token for requests
    */
@@ -30,7 +30,7 @@ export default function MedicineReminderPage() {
       console.error("No logged-in user. Please sign in first.");
       return;
     }
-
+ 
     user
       .getIdToken()
       .then((token) => {
@@ -40,13 +40,13 @@ export default function MedicineReminderPage() {
         console.error("Error getting user token:", err);
       });
   }, []);
-
+ 
   /**
    * Fetch the list of reminders from your backend
    */
   const fetchReminders = async () => {
     if (!authToken) return;
-
+ 
     try {
       const res = await fetch("http://localhost:3000/api/medicine-reminder", {
         method: "GET",
@@ -56,7 +56,7 @@ export default function MedicineReminderPage() {
         },
       });
       const data = await res.json();
-
+ 
       if (data.reminders) {
         const fetchedReminders = data.reminders.map((r: any) => ({
           id: r.id,
@@ -73,7 +73,7 @@ export default function MedicineReminderPage() {
       console.error("Error fetching reminders:", err);
     }
   };
-
+ 
   /**
    * Once we have an auth token, load the reminders
    */
@@ -82,7 +82,7 @@ export default function MedicineReminderPage() {
       fetchReminders();
     }
   }, [authToken]);
-
+ 
   /**
    * Prompt for push notification permission and update the user's FCM token in your backend
    */
@@ -115,7 +115,7 @@ export default function MedicineReminderPage() {
       console.error("Error requesting notification permission:", err);
     }
   };
-
+ 
   /**
    * Add a new medicine
    * After adding, we prompt for push notifications 
@@ -126,16 +126,16 @@ export default function MedicineReminderPage() {
       console.error("No auth token available. Please log in first.");
       return;
     }
-
+ 
     try {
       // 1) Prompt for push notifications (won't show if already granted/denied)
       await requestNotificationPermission();
-
+ 
       // 2) Optimistic UI update
       const tempId = Date.now();
       const tempMedicine = { ...medicine, id: tempId };
       setMedicines((prev) => [...prev, tempMedicine]);
-
+ 
       // 3) POST to create the medicine in your backend
       const res = await fetch("http://localhost:3000/api/medicine-reminder", {
         method: "POST",
@@ -146,7 +146,7 @@ export default function MedicineReminderPage() {
         body: JSON.stringify(medicine),
       });
       const data = await res.json();
-
+ 
       if (data.reminder) {
         // Replace the temporary item with the real one from the server
         setMedicines((prev) =>
@@ -161,7 +161,7 @@ export default function MedicineReminderPage() {
       console.error("Error creating reminder:", err);
     }
   };
-
+ 
   /**
    * Edit an existing medicine
    */
@@ -170,7 +170,7 @@ export default function MedicineReminderPage() {
       console.error("No auth token available.");
       return;
     }
-
+ 
     try {
       // Optimistically update
       setMedicines((prev) =>
@@ -178,7 +178,7 @@ export default function MedicineReminderPage() {
           medicine.id === id ? { ...medicine, ...updated } : medicine
         )
       );
-
+ 
       const res = await fetch(`http://localhost:3000/api/medicine-reminder/${id}`, {
         method: "PUT",
         headers: {
@@ -188,7 +188,7 @@ export default function MedicineReminderPage() {
         body: JSON.stringify(updated),
       });
       const data = await res.json();
-
+ 
       if (data.error) {
         console.error("Error updating reminder:", data.error);
         // revert by re-fetching
@@ -199,7 +199,7 @@ export default function MedicineReminderPage() {
       fetchReminders();
     }
   };
-
+ 
   /**
    * Delete an existing medicine
    */
@@ -208,11 +208,11 @@ export default function MedicineReminderPage() {
       console.error("No auth token available.");
       return;
     }
-
+ 
     try {
       // Optimistic removal
       setMedicines((prev) => prev.filter((medicine) => medicine.id !== id));
-
+ 
       const res = await fetch(`http://localhost:3000/api/medicine-reminder/${id}`, {
         method: "DELETE",
         headers: {
@@ -220,7 +220,7 @@ export default function MedicineReminderPage() {
         },
       });
       const data = await res.json();
-
+ 
       if (data.error) {
         console.error("Error deleting reminder:", data.error);
         // revert if needed
@@ -231,7 +231,7 @@ export default function MedicineReminderPage() {
       fetchReminders();
     }
   };
-
+ 
   return (
     <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 to-white">
       <Sidebar activeTab={activeTab} setActiveTab={setActiveTab} />
@@ -244,7 +244,7 @@ export default function MedicineReminderPage() {
             </div>
             <AddMedicineDialog onAdd={handleAddMedicine} />
           </div>
-
+ 
           {/* List of medicines */}
           <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
             {medicines.map((medicine) => (
@@ -256,7 +256,7 @@ export default function MedicineReminderPage() {
               />
             ))}
           </div>
-
+ 
           {medicines.length === 0 && (
             <div className="text-center py-12">
               <Bell className="w-12 h-12 mx-auto text-gray-400 mb-4" />
@@ -264,7 +264,7 @@ export default function MedicineReminderPage() {
               <p className="text-gray-600 mt-2">Add your first medicine to get started</p>
             </div>
           )}
-
+ 
           {editingMedicine && (
             <EditMedicineDialog
               medicine={editingMedicine}

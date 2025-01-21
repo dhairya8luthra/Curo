@@ -77,6 +77,7 @@ const facilityTypes = [
 const RadiusSelector = ({ radius, setRadius }: { radius: number; setRadius: (radius: number) => void }) => (
     <select
         className="border rounded-lg p-2"
+        style={{ backgroundColor: 'white' }} // Added style for white background
         value={radius}
         onChange={(e) => setRadius(Number(e.target.value))}
     >
