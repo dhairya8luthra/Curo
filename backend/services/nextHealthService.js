@@ -147,12 +147,13 @@ class NexHealthService {
   }
 
   async createAppointment(appointmentData) {
+    const { provider_name, ...filteredData } = appointmentData; // Destructure to exclude provider_name
     const headers = await this.getAuthHeaders();
     try {
       const response = await axios.post(
         `${NEXHEALTH_BASE_URL}/appointments`,
         {
-          appt: appointmentData
+          appt: filteredData // Use the filtered data without provider_name
         },
         {
           params: {
@@ -171,6 +172,7 @@ class NexHealthService {
       throw error;
     }
   }
+
 
   async updateAppointment(id, appointmentData) {
     const headers = await this.getAuthHeaders();

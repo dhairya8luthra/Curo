@@ -10,6 +10,7 @@ import { Bell, Search, User, Clock, Activity, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
 import { getAuth } from "firebase/auth";
+import { format } from "date-fns";
 
 interface HealthMetricsProps {
   blood_pressure?: string;  
@@ -21,16 +22,17 @@ interface HealthMetricsProps {
 }
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = useState("overview");
+ const [activeTab, setActiveTab] = useState("overview");
   const { uid } = useParams();
-  const [bmi, setBmi] = useState("Unavailable");
-
-  // State to hold user metrics for HealthMetrics
-  const [metrics, setMetrics] = useState<HealthMetricsProps>({});
-
+  const [nextAppointment, setNextAppointment] = useState({ date: "", time: "" });
+  const [isLoading, setIsLoading] = useState(true);
+  const [error, setError] = useState<string | null>(null);
   const overlayRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showOverlay, setShowOverlay] = useState(false);
+  const [bmi, setBmi] = useState("Unavailable");
+  const [metrics, setMetrics] = useState<HealthMetricsProps>({});
+ 
 
   const sessionUser = sessionStorage.getItem("authUser");
   const user = sessionUser
@@ -38,6 +40,46 @@ export default function Dashboard() {
     : { name: "Guest", email: "Not Available" };
 
   const handleProfileSelect = () => setShowOverlay((prev) => !prev);
+  useEffect(() => {
+    const fetchRecentAppointments = async () => {
+      setIsLoading(true);
+      setError(null);
+      try {
+        const auth = getAuth();
+        const user = auth.currentUser;
+        if (!user) {
+          setError("No authenticated user found");
+          setIsLoading(false);
+          return;
+        }
+
+        const token = await user.getIdToken();
+        const response = await fetch("http://localhost:3000/api/appointments/recent", {
+          headers: { Authorization: `Bearer ${token}` }
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to fetch recent appointments");
+        }
+
+        const data = await response.json();
+        if (data.data && data.data.length > 0) {
+          const nextAppt = data.data[0];
+          setNextAppointment({
+            date: format(new Date(nextAppt.start_time), "MMMM d, yyyy"),
+            time: format(new Date(nextAppt.start_time), "h:mm a")
+          });
+        }
+        setIsLoading(false);
+      } catch (err) {
+        setError( "Error fetching appointments");
+        setIsLoading(false);
+      }
+    };
+
+    fetchRecentAppointments();
+  }, []);
+  
 
   const fetchBMI = async () => {
     try {
@@ -175,8 +217,8 @@ export default function Dashboard() {
                   <Clock className="h-5 w-5 text-blue-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Next Appointment</p>
-                  <p className="font-semibold">Today, 2:00 PM</p>
+                <p className="text-sm text-gray-600">Next Appointment</p>
+                <p className="font-semibold">{nextAppointment.date} at {nextAppointment.time}</p>
                 </div>
               </div>
             </Card>

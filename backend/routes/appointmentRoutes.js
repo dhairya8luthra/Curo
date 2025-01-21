@@ -124,7 +124,7 @@ router.post('/book', authenticateUser, async (req, res) => {
       }
 
     const appointment = await nexhealthService.createAppointment(req.body);
-    
+  
 
     const { data: userRecord, error: userError } = await supabase
       .from('users')
@@ -146,6 +146,7 @@ router.post('/book', authenticateUser, async (req, res) => {
         provider_id: req.body.provider_id,   // or whatever your "doctor" ID is
         start_time: req.body.start_time,     // must be a date/time format
         notes: req.body.notes ?? null,
+        provider_name: req.body.provider_name,
       })
       .single();
 
@@ -157,10 +158,11 @@ router.post('/book', authenticateUser, async (req, res) => {
     // 5) Return combined result or whatever you prefer
     return res.json({
       message: 'Appointment created successfully',
-      nexhealthAppointment,
+      appointment,
       supabaseAppointment,
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: 'Failed to create appointment' });
    
   }

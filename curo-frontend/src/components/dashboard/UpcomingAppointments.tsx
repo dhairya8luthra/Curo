@@ -45,6 +45,7 @@ export default function UpcomingAppointments() {
         // }
         
         setAppointments(data.data || []);
+        console.log(data.data);
       } catch (err: any) {
         setError(err.message || "Error fetching appointments");
       } finally {
@@ -84,8 +85,8 @@ export default function UpcomingAppointments() {
               <div className="flex justify-between items-start mb-2">
                 {/* Replace these with your own fields (e.g. doctor name) if you have them */}
                 <div>
-                  <p className="font-medium">Provider ID: {appointment.provider_id}</p>
-                  <p className="text-sm text-gray-500">Patient/User ID: {appointment.user_id}</p>
+                  <p className="font-medium">Dr. {appointment.provider_name}</p>
+                  <p className="text-sm text-gray-500">User ID: {appointment.user_id}</p>
                 </div>
                 {/* If you store an appointment 'type' or 'notes', you can display it here */}
                 <span className="text-sm text-blue-500">{appointment.notes ?? 'No notes'}</span>

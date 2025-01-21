@@ -53,7 +53,8 @@ export default function AppointmentForm({
       provider_id: selectedDoctor.id,
       operatory_id: selectedOperatoryId,
       start_time: formattedDateTime,
-      notes: notes
+      notes: notes,
+      provider_name: selectedDoctor.name,
     });
   };
 
