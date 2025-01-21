@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import MedicineCard from './MedicineCard';
 import { Filter, SortAsc, SortDesc } from 'lucide-react';
 

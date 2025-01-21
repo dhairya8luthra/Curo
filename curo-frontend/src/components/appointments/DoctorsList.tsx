@@ -1,4 +1,4 @@
-import React, { useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import { Search, UserRound, Award, Phone, MapPin } from 'lucide-react';
 import { Input } from '@/components/ui/input';
 

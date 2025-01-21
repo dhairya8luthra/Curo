@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from 'react';
+import  { useState,useEffect } from 'react';
 import { X, Image, MessageSquare } from 'lucide-react';
 import { HospitalPhotos } from './HospitalPhotos';
 import { HospitalReviews } from './HospitalReviews';

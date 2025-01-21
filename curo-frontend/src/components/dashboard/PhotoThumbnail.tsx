@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { Image as ImageIcon } from 'lucide-react';
 
 interface PhotoThumbnailProps {

@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import Modal from './Modal';
 import './Calendar.css';
 import { useParams } from 'react-router-dom';
@@ -138,7 +138,7 @@ export default function CustomCalendar() {
                         </div>
                     ))}
                 </div>
-                {currentWeek.map((date, dayIndex) => (
+                {currentWeek.map((_, dayIndex) => (
                     <div key={dayIndex} className="calendar-day">
                         {Array.from({ length: 24 }, (_, hour) => (
                             <div key={hour} className="calendar-hour">

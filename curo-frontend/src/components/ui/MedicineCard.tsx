@@ -1,5 +1,5 @@
-import React from 'react';
-import { ExternalLink, Star, Pill, Building2 } from 'lucide-react';
+
+import { ExternalLink,  Pill, Building2 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 
 interface MedicineCardProps {

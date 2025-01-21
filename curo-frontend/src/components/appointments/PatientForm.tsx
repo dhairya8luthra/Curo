@@ -8,7 +8,7 @@ interface PatientFormProps {
   providerid: number;
 }
 
-export default function PatientForm({ onSubmit, onCancel,providerid }: PatientFormProps) {
+export default function PatientForm({ onSubmit, onCancel }: PatientFormProps) {
   const [formData, setFormData] = useState({
     first_name: '',
     last_name: '',

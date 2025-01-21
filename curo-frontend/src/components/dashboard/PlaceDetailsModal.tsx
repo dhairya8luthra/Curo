@@ -2,18 +2,6 @@ import { useState ,useEffect} from 'react';
 import React from 'react';
 import { X, Image, MessageSquare, Star, MapPin } from 'lucide-react';
 
-interface PlaceDetailsModalProps {
-
-    place: Place;
-
-    onClose: () => void;
-
-    activeTab: 'info' | 'photos' | 'reviews';
-
-    setActiveTab: (tab: 'info' | 'photos' | 'reviews') => void;
-
-
-  }
   interface PlaceDetailsResponse {
     name: string;
     rating?: number;
@@ -44,8 +32,7 @@ const PlaceDetailsModal: React.FC<{ place: Place; onClose: () => void; activeTab
   if (!place) return null;
 
     const [placeDetails, setPlaceDetails] = useState<PlaceDetailsResponse | null>(null);
-    const [loading, setLoading] = useState(false);
-    const [error, setError] = useState<string>("");
+
     const API_KEY = import.meta.env.VITE_GOOGLE_MAPS_API_KEY;
     useEffect(() => {
       
@@ -55,8 +42,7 @@ const PlaceDetailsModal: React.FC<{ place: Place; onClose: () => void; activeTab
     }, [place]);
   const fetchPlaceDetails = async (placeId: string) => {
     try {
-      setLoading(true);
-      setError("");
+      
 
       // Choose the fields you want (reviews, photos, displayName, etc.)
       // For example:
@@ -85,9 +71,8 @@ const PlaceDetailsModal: React.FC<{ place: Place; onClose: () => void; activeTab
       setPlaceDetails(data);
     } catch (err: any) {
       console.error(err);
-      setError(err.message || "Error fetching place details.");
     } finally {
-      setLoading(false);
+      
     }
   };
 
@@ -192,7 +177,7 @@ interface Place {
     open_now: boolean;
   };
   types?: string[];
-  photos?: { photo_reference:string;widthPx: number; heightPx: number }[];
+  photos?: { photo_reference: string; widthPx: number; heightPx: number }[];
   reviews?: {
     profile_photo_url: string;
     author_name: string;
@@ -229,7 +214,7 @@ const PlaceInfo: React.FC<{ place: Place }> = ({ place }) => (
   </div>
 );
 
-const PhotosGrid: React.FC<{ photos: { widthPx: number; heightPx: number }[] }> = ({ photos }) => (
+const PhotosGrid: React.FC<{ photos: { photo_reference: string; widthPx: number; heightPx: number }[] }> = ({ photos }) => (
   <div className="grid grid-cols-2 md:grid-cols-3 gap-4">
     {photos.map((photo, index) => (
       <div key={index} className="aspect-square rounded-lg overflow-hidden">

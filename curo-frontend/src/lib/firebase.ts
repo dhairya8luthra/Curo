@@ -22,7 +22,7 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 
 // Initialize Analytics (only works if you run in a browser environment)
-const analytics = getAnalytics(app);
+
 
 // Export Firebase Auth instance
 export const auth = getAuth(app);

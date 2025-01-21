@@ -1,4 +1,3 @@
-import React from 'react';
 import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface PhotoLightboxProps {

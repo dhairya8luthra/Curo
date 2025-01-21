@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import  { useState, useEffect } from 'react';
 import { getAuth } from 'firebase/auth';
 import PatientForm from './PatientForm';
 import { Button } from '../ui/button';

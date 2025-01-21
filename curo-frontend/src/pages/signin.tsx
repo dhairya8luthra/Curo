@@ -15,14 +15,13 @@ import { useNavigate } from 'react-router-dom';
 
 export default function AuthPage() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
-  const [error, setError] = useState<string>('');
+ 
   const navigate = useNavigate();
 
   const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     setIsLoading(true);
-    setError('');
-
+ 
     const form = event.target as HTMLFormElement;
     const email = (form.elements.namedItem('email') as HTMLInputElement).value;
     const password = (form.elements.namedItem('password') as HTMLInputElement).value;
@@ -72,7 +71,6 @@ export default function AuthPage() {
         navigate(`/userdashboard/${user.uid}`);
       }
     } catch (err: any) {
-      setError(err.message);
     } finally {
       setIsLoading(false);
     }
@@ -108,7 +106,7 @@ export default function AuthPage() {
       // (2) Navigate to /userdashboard/:uid
       navigate(`/userdashboard/${user.uid}`);
     } catch (err: any) {
-      setError(err.message);
+     
     }
   };
 

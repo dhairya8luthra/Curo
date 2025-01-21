@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { PhotoThumbnail } from './PhotoThumbnail';
 import { PhotoLightbox } from './PhotoLightBox';
 import { ImageIcon } from 'lucide-react';

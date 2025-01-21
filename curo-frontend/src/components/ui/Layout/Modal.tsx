@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { useState } from 'react';
 import './Modal.css'; // Assuming you have a CSS file for styling
 

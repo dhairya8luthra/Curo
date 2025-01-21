@@ -1,4 +1,4 @@
-import React from 'react';
+
 import { ShoppingCart, Package, Tag } from 'lucide-react';
 
 interface Product {
