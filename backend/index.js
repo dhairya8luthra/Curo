@@ -441,7 +441,7 @@ app.post(
         details: parsedDetails, // Use parsed JSON object
         uploaded_file_url: fileUrl,
       });
-
+      console.log(parsedDetails);
       if (error) {
         console.error("Supabase insert error:", error);
         return res.status(500).json({ error: "Failed to insert record" });

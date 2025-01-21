@@ -1,11 +1,21 @@
-// firebaseAdmin.js
 import admin from "firebase-admin";
-import serviceAccount from "./serviceAccountKey.json" assert { type: "json" };
-// your private service account JSON
+import { readFile } from 'fs/promises';
 
-// Initialize the Firebase Admin SDK
-admin.initializeApp({
-  credential: admin.credential.cert(serviceAccount),
-});
+async function initializeFirebaseAdmin() {
+    try {
+        const data = await readFile('./serviceAccountKey.json', { encoding: 'utf8' });
+        const serviceAccount = JSON.parse(data);
+
+        admin.initializeApp({
+            credential: admin.credential.cert(serviceAccount)
+        });
+
+        console.log("Firebase Admin initialized successfully.");
+    } catch (error) {
+        console.error('Failed to initialize Firebase Admin:', error);
+    }
+}
+
+initializeFirebaseAdmin();
 
 export default admin;
