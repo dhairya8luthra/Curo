@@ -1,4 +1,3 @@
-// pages/Dashboard.tsx
 import React, { useState, useRef, useEffect } from "react";
 import Sidebar from "../components/ui/Layout/SideBar";
 import { Input } from "@/components/ui/input";
@@ -10,42 +9,105 @@ import { useParams } from "react-router-dom";
 import { Bell, Search, User, Clock, Activity, Heart } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
+import { getAuth } from "firebase/auth";
+
+interface HealthMetricsProps {
+  blood_pressure?: string;  
+  weight?: number;
+  height?: number;
+  allergies?: string;
+  blood_group?: string;
+  heart_rate?: string;
+}
 
 export default function Dashboard() {
-  const [activeTab, setActiveTab] = React.useState("overview");
+  const [activeTab, setActiveTab] = useState("overview");
   const { uid } = useParams();
+  const [bmi, setBmi] = useState("Unavailable");
+
+  // State to hold user metrics for HealthMetrics
+  const [metrics, setMetrics] = useState<HealthMetricsProps>({});
+
   const overlayRef = useRef<HTMLDivElement>(null);
   const buttonRef = useRef<HTMLButtonElement>(null);
   const [showOverlay, setShowOverlay] = useState(false);
-  const sessionUser = sessionStorage.getItem("authUser");
-  const user = sessionUser ? JSON.parse(sessionUser) : null;
 
-  const handleProfileSelect = () => {
-    if (user) {
-      // Toggle overlay visibility
-      setShowOverlay((prev) => !prev);
-    } else {
-      console.error("No user data available in session storage.");
+  const sessionUser = sessionStorage.getItem("authUser");
+  const user = sessionUser
+    ? JSON.parse(sessionUser)
+    : { name: "Guest", email: "Not Available" };
+
+  const handleProfileSelect = () => setShowOverlay((prev) => !prev);
+
+  const fetchBMI = async () => {
+    try {
+      const auth = getAuth();
+      const currentUser = auth.currentUser;
+      if (!currentUser) {
+        console.error("No logged-in user");
+        return;
+      }
+      const token = await currentUser.getIdToken();
+
+      if (!token) {
+        throw new Error("No token provided");
+      }
+
+      const response = await fetch("http://localhost:3000/api/fetch-user", {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      const result = await response.json();
+      if (!response.ok) throw new Error(result.error || "Failed to fetch user data");
+
+      const userData = result.records[0]; // Assuming a single user record
+
+      // Extract height and weight to compute BMI
+      const { height, weight } = userData;
+      if (height && weight) {
+        const heightInMeters = height / 100;
+        const bmiValue = weight / (heightInMeters * heightInMeters);
+        setBmi(bmiValue.toFixed(2));
+      } else {
+        setBmi("Unavailable");
+      }
+
+      // Update 'metrics' state with the fetched user data
+      setMetrics({
+        blood_pressure: userData.blood_pressure?.toString(), 
+        weight: userData.weight,
+        height: userData.height,
+        allergies: userData.allergies,
+        blood_group: userData.blood_group,
+        heart_rate: userData.heart_rate,
+      });
+    } catch (error) {
+      console.error("Error fetching user data:", error);
     }
   };
 
   const handleClickOutside = (event: MouseEvent) => {
-    // Check if the click is outside the button or overlay
     if (
-      overlayRef.current && !overlayRef.current.contains(event.target as Node) &&
-      buttonRef.current && !buttonRef.current.contains(event.target as Node)
+      overlayRef.current &&
+      !overlayRef.current.contains(event.target as Node) &&
+      buttonRef.current &&
+      !buttonRef.current.contains(event.target as Node)
     ) {
-      setShowOverlay(false); // Close overlay
+      setShowOverlay(false);
     }
   };
 
   useEffect(() => {
     document.addEventListener("mousedown", handleClickOutside);
-    return () => {
-      document.removeEventListener("mousedown", handleClickOutside);
-    };
+    return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
+  useEffect(() => {
+    fetchBMI();
+  }, []);
 
   return (
     <div className="flex h-screen w-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
@@ -54,12 +116,12 @@ export default function Dashboard() {
 
       {/* Main Content */}
       <main className="flex-1 p-8 overflow-auto">
-        {/* Header */}
         <header className="flex flex-col md:flex-row justify-between items-start md:items-center mb-8 space-y-4 md:space-y-0">
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Dashboard</h1>
             <p className="text-gray-600">
-              Welcome back, {user && <span className="ml-1 font-semibold">{user.name}</span>}
+              Welcome back,
+              <span className="ml-1 font-semibold">{user.name}</span>
             </p>
           </div>
 
@@ -81,7 +143,7 @@ export default function Dashboard() {
 
             {/* User Icon */}
             <Button
-              ref={buttonRef} // Attach buttonRef to the button
+              ref={buttonRef}
               variant="ghost"
               size="icon"
               className="text-gray-600 hover:text-blue-500 hover:bg-blue-50"
@@ -90,25 +152,21 @@ export default function Dashboard() {
               <User className="h-5 w-5" />
             </Button>
 
-
             {/* Overlay */}
-            {showOverlay && user && (
+            {showOverlay && (
               <div
-                ref={overlayRef} // Attach overlayRef to the overlay div
+                ref={overlayRef}
                 className="absolute left-0 top-full mt-2 w-64 bg-white border border-gray-300 shadow-lg rounded-md p-4 z-10"
               >
                 <p className="text-gray-700 font-medium">Name: {user.name}</p>
                 <p className="text-gray-700 font-medium">Email: {user.email}</p>
               </div>
             )}
-
           </div>
-
-
         </header>
 
         {/* Dashboard Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 ">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {/* Small Cards */}
           <div className="grid grid-cols-2 gap-4">
             <Card className="p-4">
@@ -128,8 +186,8 @@ export default function Dashboard() {
                   <Heart className="h-5 w-5 text-green-600" />
                 </div>
                 <div>
-                  <p className="text-sm text-gray-600">Health Score</p>
-                  <p className="font-semibold">92/100</p>
+                  <p className="text-sm text-gray-600">BMI</p>
+                  <p className="font-semibold">{bmi}</p>
                 </div>
               </div>
             </Card>
@@ -145,12 +203,15 @@ export default function Dashboard() {
             <UpcomingAppointments />
           </Card>
           <Card className="p-6">
-            <HealthMetrics />
-          </Card>
-
-          {/* Recent Records */}
-          <Card className="col-span-2 p-6">
-            <RecentRecords />
+            {/* Pass all the fetched user data as props */}
+            <HealthMetrics
+              blood_pressure={metrics.blood_pressure}
+              weight={metrics.weight}
+              height={metrics.height}
+              allergies={metrics.allergies}
+              blood_group={metrics.blood_group}
+              heart_rate={metrics.heart_rate}
+            />
           </Card>
         </div>
       </main>

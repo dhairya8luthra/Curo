@@ -934,6 +934,27 @@ app.post("/api/update-profile", authenticateUser, async (req, res) => {
     return res.status(500).json({ error: "Internal Server Error." });
   }
 });
+
+app.get("/api/fetch-user", authenticateUser, async (req, res) => {
+  try {
+    const { uid } = req.user;
+    const { data, error } = await supabase
+      .from("users")
+      .select("*")
+      .eq("uid", uid);
+ 
+    // Use error from the query, and check if data is empty or null
+    if (error || !data) {
+      return res.status(404).json({ error: "User not found" });
+    }
+ 
+    console.log(data); // Log the fetched data
+    res.status(200).json({ records: data }); // Send the fetched data as the response
+  } catch (err) {
+    console.error(err); // Log the error if any
+    res.status(500).json({ error: err.message }); // Send the error message in the response
+  }
+});
  
 
  

@@ -193,7 +193,7 @@ export function HospitalDetails({ hospital, onClose }: HospitalDetailsProps) {
                     author_name: rev.authorAttribution.displayName,
                     rating: rev.rating,
                     relative_time_description: rev.relativePublishTimeDescription,
-                    text: rev.text.text,
+                    text: rev.text?.text|| '',
                     profile_photo_url: rev.authorAttribution.photoUri || '',
                   })) || []
                 }
