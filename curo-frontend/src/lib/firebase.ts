@@ -2,7 +2,6 @@
 
 // Import the functions you need from the SDKs you want
 import { initializeApp } from "firebase/app";
-import { getAnalytics } from "firebase/analytics";
 import { getAuth } from "firebase/auth";
 import { getMessaging } from "firebase/messaging"; // <-- For FCM
 
