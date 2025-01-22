@@ -119,7 +119,7 @@ export default function CuroLandingPage() {
       name: "Shreejeet Mishra",
       role: "Full Stack Developer",
       description: "Seasoned engineer specializing in secure healthcare systems and cloud infrastructure.",
-      image: "../src/assets/shreejeet.jpg"
+      image: ".\\src\\assets\\animish.jpg"
     },
   ];
 
