@@ -320,9 +320,11 @@ export default function CuroLandingPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
+              <Link to={'https://www.youtube.com/watch?v=UMG0klFGsyg'}>
               <Button variant="outline" className="text-lg px-6 py-3 md:px-8 md:py-4">
                 Watch Demo
               </Button>
+              </Link>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
