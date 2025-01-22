@@ -324,6 +324,20 @@ export default function CuroLandingPage() {
                 Watch Demo
               </Button>
             </motion.div>
+            <motion.div
+              whileHover={{ scale: 1.05 }}
+              whileTap={{ scale: 0.95 }}
+            >
+               <Link to={'https://documenter.getpostman.com/view/26636117/2sAYQdjALr'}>
+             
+              <Button className="text-lg px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-300">
+
+              API Documentation
+                
+                 <ChevronRight className="ml-2 h-5 w-5" />
+              </Button>
+              </Link>
+            </motion.div>
             
           </motion.div>
         </motion.section>
