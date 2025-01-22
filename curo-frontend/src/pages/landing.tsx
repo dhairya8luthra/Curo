@@ -100,8 +100,8 @@ export default function CuroLandingPage() {
     {
       name: "Animish Agrahari",
       role: "Full Stack Developer",
-      description: "Board-certified physician with expertise in digital healthcare transformation and AI implementation in medical systems.",
-      image: "https://instagram.fhyd11-1.fna.fbcdn.net/v/t51.2885-19/439124596_819705783396418_2725078178084188371_n.jpg?_nc_ht=instagram.fhyd11-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=0ur5lxYr3IUQ7kNvgELFbsp&_nc_gid=91bae77ef35840ffae2ffdd74b79edbc&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AYDxCQYvvcXq6YIRAusSfIROHKiwlaPw9Mnlyiyh2Q90lg&oe=679696D6&_nc_sid=7d3ac5"
+      description: "Pixel pusher by day, bug hunter by night.",
+      image: "https://media.licdn.com/dms/image/v2/D5603AQHdvUmV5Pjvcg/profile-displayphoto-shrink_400_400/B56ZSNMF0UHEAg-/0/1737535546012?e=1743033600&v=beta&t=QJe5hiOmTg3az3Z_s3DWEm_l3SX0QjHAgPbqTJ98L20"
     },
     {
       name: "Dhairya Luthra",
