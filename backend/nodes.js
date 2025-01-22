@@ -165,8 +165,7 @@ export async function generate(state) {
   {context}
   
   User’s question: {question}
-  
-  If the text does not contain enough information, say: "I do not have enough info."
+  try to answer from the context.if you cant you have a tool to search the web as well"
   `);
 
   const chain = prompt.pipe(llm).pipe(new StringOutputParser());
