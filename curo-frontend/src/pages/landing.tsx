@@ -98,10 +98,10 @@ export default function CuroLandingPage() {
 
   const team = [
     {
-      name: "Animish Agrahar",
+      name: "Animish Agrahari",
       role: "Full Stack Developer",
       description: "Board-certified physician with expertise in digital healthcare transformation and AI implementation in medical systems.",
-      image: "../src/assets/animish.jpg"
+      image: "https://instagram.fhyd11-1.fna.fbcdn.net/v/t51.2885-19/439124596_819705783396418_2725078178084188371_n.jpg?_nc_ht=instagram.fhyd11-1.fna.fbcdn.net&_nc_cat=110&_nc_ohc=0ur5lxYr3IUQ7kNvgELFbsp&_nc_gid=91bae77ef35840ffae2ffdd74b79edbc&edm=ALGbJPMBAAAA&ccb=7-5&oh=00_AYDxCQYvvcXq6YIRAusSfIROHKiwlaPw9Mnlyiyh2Q90lg&oe=679696D6&_nc_sid=7d3ac5"
     },
     {
       name: "Dhairya Luthra",
@@ -119,7 +119,7 @@ export default function CuroLandingPage() {
       name: "Shreejeet Mishra",
       role: "Full Stack Developer",
       description: "Seasoned engineer specializing in secure healthcare systems and cloud infrastructure.",
-      image: ".\\src\\assets\\animish.jpg"
+      image: ".\\src\\assets\\shreejeet.jpg"
     },
   ];
 
@@ -188,8 +188,28 @@ export default function CuroLandingPage() {
         </Button>
       </motion.div>
     </motion.li>
+    <motion.li variants={itemVariants}>
+      <motion.div
+        whileHover={{ scale: 1.05 }}
+        whileTap={{ scale: 0.95 }}
+      >
+        <a
+          href="https://god.gw.postman.com/run-collection/26636117-04056783-ab16-4d33-b379-2a217fcdaea8?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D26636117-04056783-ab16-4d33-b379-2a217fcdaea8%26entityType%3Dcollection%26workspaceId%3D70af78ac-63cc-40c4-8359-5913c8de1349"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="inline-block"
+        >
+          <img
+            src="https://run.pstmn.io/button.svg"
+            alt="Run in Postman"
+            style={{ width: "128px", height: "32px" }}
+          />
+        </a>
+      </motion.div>
+    </motion.li>
   </motion.ul>
 </nav>
+
         <motion.div 
           className="md:hidden"
           whileHover={{ scale: 1.1 }}
@@ -218,6 +238,22 @@ export default function CuroLandingPage() {
                 animate="visible"
               >
                 <motion.li variants={itemVariants}>
+                
+                <a
+      href="https://god.gw.postman.com/run-collection/26636117-04056783-ab16-4d33-b379-2a217fcdaea8?action=collection%2Ffork&source=rip_markdown&collection-url=entityId%3D26636117-04056783-ab16-4d33-b379-2a217fcdaea8%26entityType%3Dcollection%26workspaceId%3D70af78ac-63cc-40c4-8359-5913c8de1349"
+      target="_blank"
+      rel="noopener noreferrer"
+      style={{ display: "inline-block", textDecoration: "none" }}
+    >
+      <img
+        src="https://run.pstmn.io/button.svg"
+        alt="Run in Postman"
+        style={{ width: "128px", height: "32px" }}
+      />
+    </a>
+                </motion.li>
+                <motion.li variants={itemVariants}>
+
                   <button
                     onClick={handleScrollToFeatures}
                     className="block py-2 text-gray-600 hover:text-blue-500 w-full text-left"
@@ -288,6 +324,7 @@ export default function CuroLandingPage() {
                 Watch Demo
               </Button>
             </motion.div>
+            
           </motion.div>
         </motion.section>
 
