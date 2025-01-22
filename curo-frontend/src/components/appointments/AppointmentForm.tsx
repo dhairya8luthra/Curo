@@ -46,6 +46,14 @@ export default function AppointmentForm({
     }
 
     const formattedDateTime = new Date(selectedTime).toISOString();
+    console.log('Submitting appointment:', {
+      patient_id: selectedPatientId,
+      provider_id: selectedDoctor.id,
+      operatory_id: selectedOperatoryId,
+      start_time: formattedDateTime,
+      notes: notes,
+      provider_name: selectedDoctor.name,
+    });
 
     onSubmit({
       patient_id: selectedPatientId,

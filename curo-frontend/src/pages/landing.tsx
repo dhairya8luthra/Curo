@@ -98,28 +98,28 @@ export default function CuroLandingPage() {
 
   const team = [
     {
-      name: "Dr. Sarah Chen",
-      role: "Medical Director",
+      name: "Animish Agrahar",
+      role: "Full Stack Developer",
       description: "Board-certified physician with expertise in digital healthcare transformation and AI implementation in medical systems.",
-      image: "https://images.unsplash.com/photo-1559839734-2b71ea197ec2?auto=format&fit=crop&w=300"
+      image: "../src/assets/animish.jpg"
     },
     {
-      name: "Alex Rivera",
-      role: "AI Research Lead",
-      description: "Specialist in healthcare AI systems and natural language processing for medical applications.",
-      image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?auto=format&fit=crop&w=300"
+      name: "Dhairya Luthra",
+      role: "Full Stack Developer",
+      description: "Made this app during a caffeine high. Now debugging it during a caffeine crash.",
+      image: "https://media.licdn.com/dms/image/v2/C4D03AQEf_NU1dheWog/profile-displayphoto-shrink_800_800/profile-displayphoto-shrink_800_800/0/1645523233347?e=1743033600&v=beta&t=Wtz9fqVSGvDX8WSIfCjCTLC9JkTvRB8Yhu5Lzd0wn_g"
     },
     {
-      name: "Dr. Emily Watson",
-      role: "Healthcare Analytics Head",
-      description: "Expert in medical data analysis and predictive modeling for insurance and healthcare outcomes.",
-      image: "https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?auto=format&fit=crop&w=300"
+      name: "Aariv Walia",
+      role: "Full Stack Developer",
+      description: "The Ctrl+C, Ctrl+V wizard youve been looking for.",
+      image: "https://media.licdn.com/dms/image/v2/D5603AQF2EmmA7YpJZw/profile-displayphoto-shrink_400_400/profile-displayphoto-shrink_400_400/0/1730619211520?e=1743033600&v=beta&t=GyWDb2WEhLIdqHF1CuB1GUoz2WVvJ_EjfojqP7_jFjc"
     },
     {
-      name: "Michael Chang",
-      role: "Technical Architect",
+      name: "Shreejeet Mishra",
+      role: "Full Stack Developer",
       description: "Seasoned engineer specializing in secure healthcare systems and cloud infrastructure.",
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?auto=format&fit=crop&w=300"
+      image: "../src/assets/shreejeet.jpg"
     },
   ];
 
@@ -270,9 +270,15 @@ export default function CuroLandingPage() {
               whileHover={{ scale: 1.05 }}
               whileTap={{ scale: 0.95 }}
             >
+               <Link to={'/auth'}>
+             
               <Button className="text-lg px-6 py-3 md:px-8 md:py-4 bg-gradient-to-r from-blue-500 to-blue-600 hover:from-blue-600 hover:to-blue-700 transition-all duration-300">
-                Get Started <ChevronRight className="ml-2 h-5 w-5" />
+
+              Get Started by Signing in
+                
+                 <ChevronRight className="ml-2 h-5 w-5" />
               </Button>
+              </Link>
             </motion.div>
             <motion.div
               whileHover={{ scale: 1.05 }}
@@ -385,7 +391,7 @@ export default function CuroLandingPage() {
             viewport={{ once: true }}
             transition={{ duration: 0.6 }}
           >
-            Meet Our Expert Team
+            Meet Our Team
           </motion.h2>
           <motion.div 
             className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8"
