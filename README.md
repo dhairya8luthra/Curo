@@ -1,5 +1,5 @@
 <div align="center">
-  <img src="public/assets/images/logo-large.png" alt="Curo Logo" width="200" style="color:white"/>
+  <img src="/curo.png" alt="Curo Logo" width="200" style="color:white"/>
 </div>
 
 ---
