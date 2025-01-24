@@ -268,15 +268,48 @@ Comprehensive API documentation is available in our [Postman Collection](#). Bel
 - **GET** `/api/maps/nearby-pharmacy` — Locate pharmacies within a specified radius  
 
 For the full list of endpoints and parameters, check the [Postman Docs](#).
-
 ---
 
+## Screenshots 📸
+### Landing Page
+![Landing](screenshots/landing.png)
+### Auth Page
+![Auth](screenshots/auth.png)
+
+### Dashboard
+![Dashboard](screenshots/dashboard1.png)
+![Dashboard](screenshots/dashboard2.png)
+### Find Nearby Services
+![Find Nearby Services](screenshots/find.png)
+![Find Nearby Services](screenshots/find1.png)
+### Appointments
+![Appointments](screenshots/appointments.png)
+### Health Records
+![Health Records](screenshots/records.png)
+### Medichat - AI Doctor
+![Medichat](screenshots/medichat.png)
+
+### Medicine Reminder
+![Medicine Reminder](screenshots/reminder.png)
+### Medicine Price Comparison
+![Medicine Price Comparison](screenshots/price.png)
+### Premium Predictor
+![Premium Predictor](screenshots/predict.png)
+### User Details
+![User Details](screenshots/user.png)
+
+
+
+
+
+---
+ 
 ## Meet the Team 👩‍💻👨‍💻
 
 | Name                 | Role                   | Fun Fact                                                          |
 |----------------------|------------------------|-------------------------------------------------------------------|
-| **Animish Agrahari** | Full Stack Developer   | Pixel pusher by day, bug hunter by night.                         |
-| **Dhairya Luthra**   | Full Stack Developer   | Built this app on a caffeine high; now debugging on a caffeine crash. |
+| **Dhairya Luthra** | Full Stack Developer   |Built this app on a caffeine high; now debugging on a caffeine crash. |
+| **Animish Agrahari**  | Full Stack Developer   |Pixel pusher by day, bug hunter by night.   |
 | **Aariv Walia**      | Full Stack Developer   | Ctrl+C, Ctrl+V wizard—making code happen effortlessly.            |
 | **Shreejeet Mishra** | Full Stack Developer   | Thinks in binary, dreams in color.                                |
 
